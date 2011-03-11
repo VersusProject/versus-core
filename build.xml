@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="versus" default="archive">
+
+	<property name="build.dir" location="build" />
+	
+	<property name="src.dir" location="src/main/java" />
+	
+	<property name="lib.dir" location="lib" />
+	
+	<property name="test.dir" location="${build.dir}/test" />
+	
+	<property name="dist.dir" location="dist" />
+	
+	<property name="standalone.dir" location="${dist.dir}/standalone" />
+	
+	<property name="test.data.dir" location="${build.dir}/data" />
+	
+	<property name="test.reports.dir" location="${build.dir}/reports" />
+	
+	<property name="javadocs.dir" location="${build.dir}/javadocs" />
+	
+	<property name="project.name" value="versus" />
+	
+	<property name="project.version" value="0.5" />
+	
+	<property name="jarfile.api.name" value="${project.name}-api-${project.version}.jar" />
+		
+	<property name="jarfile.api.path" location="${dist.dir}/${jarfile.api.name}" />
+	
+	<property name="jarfile.impl.name" value="${project.name}-impl-${project.version}.jar" />
+		
+	<property name="jarfile.impl.path" location="${dist.dir}/${jarfile.impl.name}" />
+
+	
+	<path id="compile.classpath">
+		<pathelement path="${src.dir}" />
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar" />
+			<exclude name="junit-4.8.1.jar"/>
+		</fileset>
+	</path>
+	
+	<path id="test.classpath">
+		<path refid="compile.classpath" />
+		<pathelement path="lib/junit-4.8.1.jar" />
+		<pathelement path="${build.dir}/classes" />
+		<pathelement path="${build.dir}/test" />
+	</path>
+
+	<target name="init">
+		<mkdir dir="${build.dir}/classes" />
+		<mkdir dir="${dist.dir}" />
+	</target>
+	
+	<target name="test-init">
+		<mkdir dir="${test.dir}"/>
+		<delete dir="${test.data.dir}" />
+		<delete dir="${test.reports.dir}" />
+		<mkdir dir="${test.data.dir}"/>
+		<mkdir dir="${test.reports.dir}"/>
+	</target>
+
+	<target name="clean" depends="init" description="Deletes all generated files">
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+	</target>
+
+	<target name="compile" depends="init" description="Compiles the Java source code">
+		<javac srcdir="src" includes="**" encoding="utf-8" destdir="build/classes" 
+			source="1.5" target="1.6" nowarn="true" debug="true" debuglevel="lines,vars,source">
+			<classpath refid="compile.classpath" />
+		</javac>
+		<copy todir="${build.dir}/classes/META-INF">
+		    <fileset dir="${src.dir}/META-INF"/>
+		</copy>
+	</target>
+	
+	<target name="test-compile" depends="compile,test-init">
+		<javac destdir="${test.dir}" debug="${build.debug}" includeantruntime="true" srcdir="test">
+			<classpath refid="test.classpath" />
+		</javac>
+		
+		<copy todir="${test.dir}">
+			<fileset dir="test" excludes="**/*.java" />
+		</copy>
+	</target>
+	
+	<target name="test" depends="test-compile">
+		<junit printsummary="true" errorproperty="test.failed" failureproperty="test.failed">
+			<classpath refid="test.classpath" />
+			<formatter type="brief" usefile="false"/>
+			<formatter type="xml"/>
+			<batchtest todir="${test.data.dir}">
+				<fileset dir="${test.dir}" includes="**/*Test.class" />
+			</batchtest>
+		</junit>
+		
+		<junitreport todir="${test.reports.dir}">
+			<fileset dir="${test.data.dir}">
+				<include name="TEST-*.xml"/>
+			</fileset>
+			<report format="frames" todir="${test.reports.dir}"/>
+		</junitreport>
+		
+		<fail message="Tests failed. Check log and reports." if="test.failed" />
+	</target>	
+	
+	<target name="archive" depends="compile" description="Creates the JAR file">
+		<jar destfile="${jarfile.api.path}">
+			<fileset dir="${build.dir}/classes" excludes="**/impl/**,**/gui/**,**/guice/**,**/services/**,**/cli/**"></fileset>
+		</jar>
+		<jar destfile="${jarfile.impl.path}">
+			<fileset dir="${build.dir}/classes" includes="**/impl/**,**/gui/**,**/guice/**,**/services/**,**/cli/**"></fileset>
+		</jar>
+	</target>
+	
+	<target name="test-dist" depends="archive">
+		<unjar src="${jarfile.api.path}" dest="${dist.dir}/unjar-api">
+		</unjar>
+		<unjar src="${jarfile.impl.path}" dest="${dist.dir}/unjar-impl">
+		</unjar>
+	</target>
+	
+	<target name="javadocs" depends="compile" description="Make javadocs">
+		<mkdir dir="${javadocs.dir}" />
+		<javadoc author="true" destdir="${javadocs.dir}" packagenames="edu.illinois.ncsa.versus.*"
+			sourcepath="${src.dir}" use="true" version="true" windowtitle="documentation" private="true" >
+			<classpath refid="compile.classpath" />
+		</javadoc>
+	</target>
+	
+	<target name="dist" depends="archive" description="Create distribution folder">
+		<mkdir dir="${standalone.dir}/lib"/>
+		<copy todir="${standalone.dir}/lib">
+		  <fileset dir="lib"
+		           includes="**/*.jar"
+		           excludes="junit-4.8.1.jar"
+		  />
+		</copy>
+		<copy file="${jarfile.api.path}" todir="${standalone.dir}/lib"/>
+		<copy file="${jarfile.impl.path}" todir="${standalone.dir}/lib"/>
+		<copy file="src/log4j.properties" todir="${standalone.dir}/lib"/>
+		<copy file="resources/versus-gui.sh" todir="${standalone.dir}"/>
+		<chmod file="${standalone.dir}/versus-gui.sh" perm="u+x"/>
+		<copy file="resources/versus-cli.sh" todir="${standalone.dir}"/>
+		<chmod file="${standalone.dir}/versus-cli.sh" perm="u+x"/>
+	</target>
+	
+</project>
