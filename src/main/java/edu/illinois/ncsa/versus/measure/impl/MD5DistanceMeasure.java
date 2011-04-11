@@ -12,17 +12,16 @@ import edu.illinois.ncsa.versus.measure.SimilarityPercentage;
 
 /**
  * MD5 Digest distance. Distance is 1 if the digests are equal, 0 otherwise.
- *  
+ * 
  * @author Luigi Marini <lmarini@ncsa.illinois.edu>
- *
+ * 
  */
 public class MD5DistanceMeasure implements Measure {
 
 	@Override
 	public Similarity compare(Descriptor feature1, Descriptor feature2)
 			throws Exception {
-		if (feature1 instanceof MD5Digest
-				&& feature2 instanceof MD5Digest) {
+		if (feature1 instanceof MD5Digest && feature2 instanceof MD5Digest) {
 			MD5Digest md5Feature1 = (MD5Digest) feature1;
 			MD5Digest md5Feature2 = (MD5Digest) feature2;
 			if (Arrays.equals(md5Feature1.getDigest(), md5Feature2.getDigest())) {
@@ -44,7 +43,7 @@ public class MD5DistanceMeasure implements Measure {
 
 	@Override
 	public String getFeatureType() {
-		return MD5Digest.class.toString();
+		return MD5Digest.class.getName();
 	}
 
 	@Override
@@ -53,7 +52,7 @@ public class MD5DistanceMeasure implements Measure {
 	}
 
 	@Override
-	public Class<?> getType() {
+	public Class<MD5DistanceMeasure> getType() {
 		return MD5DistanceMeasure.class;
 	}
 

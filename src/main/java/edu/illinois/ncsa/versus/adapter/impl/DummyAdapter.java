@@ -9,12 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.illinois.ncsa.versus.adapter.FileLoader;
+import edu.illinois.ncsa.versus.adapter.HasBytes;
 
 /**
  * @author lmarini
  * 
  */
-public class DummyAdapter implements FileLoader {
+public class DummyAdapter implements HasBytes, FileLoader {
 
 	private static final long SLEEP = 5000;
 
@@ -38,6 +39,11 @@ public class DummyAdapter implements FileLoader {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public byte[] getBytes() throws IOException {
+		return new byte[0];
 	}
 
 }
