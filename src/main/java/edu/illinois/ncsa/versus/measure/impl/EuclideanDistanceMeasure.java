@@ -44,6 +44,42 @@ public class EuclideanDistanceMeasure implements Measure {
 	}
 
 	/**
+	 * Compare two arrays of the same length.
+	 * 
+	 * @param feature1
+	 *            an array
+	 * @param feature2
+	 *            another array
+	 * @return the Euclidean distance between the two given arrays
+	 * @throws Exception
+	 */
+	private SimilarityNumber compare(VectorFeature feature1, VectorFeature feature2) throws Exception {
+		double sum = 0;
+
+		// Check for same length
+		if (feature1.size() != feature2.size()) {
+			throw new Exception("Features must have the same length");
+		}
+
+		for (int i = 0; i < feature1.size(); i++) {
+			if (!(feature1.get(i) instanceof double[]) || !(feature2.get(i) instanceof double[])) {
+				throw new Exception("Features must be double[]");
+			}
+			double[] arr1 = (double[])feature1.get(i);
+			double[] arr2 = (double[])feature2.get(i);
+			if (arr1.length != arr2.length) {
+				throw new Exception("Features.array must have the same length");
+			}
+			double subsum = 0;
+			for(int j=0; j<arr1.length; j++) {
+				subsum += Math.pow(arr1[j] - arr2[j], 2);
+			}
+			sum += Math.sqrt(subsum / arr1.length);
+		}
+		return new SimilarityNumber(Math.sqrt(sum / feature1.size()));
+	}
+
+	/**
 	 * Compare two arrays of pixels of the same size.
 	 * 
 	 * @param feature1
@@ -111,7 +147,7 @@ public class EuclideanDistanceMeasure implements Measure {
 					(DoubleArrayFeature) feature2);
 		} else if (feature1 instanceof VectorFeature
 				&& feature2 instanceof VectorFeature) {
-			return compare(feature1, feature2);
+			return compare((VectorFeature)feature1, (VectorFeature)feature2);
 		} else if (feature1 instanceof ThreeDimensionalDoubleArrayFeature
 				&& feature2 instanceof ThreeDimensionalDoubleArrayFeature) {
 			ThreeDimensionalDoubleArrayFeature arrayFeature1 = (ThreeDimensionalDoubleArrayFeature) feature1;
