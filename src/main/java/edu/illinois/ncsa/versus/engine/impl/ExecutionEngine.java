@@ -46,7 +46,7 @@ public class ExecutionEngine {
 	 * 
 	 * @param job
 	 */
-	public void submit(Job job, ComparisonDoneHandler handler) {
+	public void submit(Job job, ComparisonStatusHandler handler) {
 		jobs.add(job);
 		Set<PairwiseComparison> comparison = job.getComparison();
 		for (PairwiseComparison pairwiseComparison : comparison) {
@@ -77,7 +77,7 @@ public class ExecutionEngine {
 	}
 
 	public Job submit(PairwiseComparison comparison,
-			ComparisonDoneHandler handler) {
+			ComparisonStatusHandler handler) {
 		Job job = new Job();
 		job.setId(UUID.randomUUID().toString());
 		job.addComparison(comparison);

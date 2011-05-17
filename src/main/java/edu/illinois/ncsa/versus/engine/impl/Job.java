@@ -29,7 +29,7 @@ public class Job implements Serializable {
 	private Date ended;
 
 	public enum ComparisonStatus {
-		STARTED, ENDED, FAILED, ABORTED
+		STARTED, DONE, FAILED, ABORTED
 	}
 
 	private Map<String, ComparisonStatus> comparisonStatus = new HashMap<String, Job.ComparisonStatus>();
@@ -89,7 +89,7 @@ public class Job implements Serializable {
 			PairwiseComparison comparison = iterator.next();
 			if (comparison.getId().equals(comparisonId)) {
 				comparison.setSimilarity(similarity);
-				setStatus(comparisonId, ComparisonStatus.ENDED);
+				setStatus(comparisonId, ComparisonStatus.DONE);
 			}
 		}
 	}

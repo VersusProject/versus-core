@@ -48,7 +48,7 @@ public class ComputeThread extends Thread {
 
 	private final String measureID;
 
-	private ComparisonDoneHandler handler;
+	private ComparisonStatusHandler handler;
 
 	/**
 	 * 
@@ -83,7 +83,7 @@ public class ComputeThread extends Thread {
 	}
 
 	public ComputeThread(PairwiseComparison pairwiseComparison2, Job job2,
-			ComparisonDoneHandler handler) {
+			ComparisonStatusHandler handler) {
 		this(pairwiseComparison2, job2);
 		this.handler = handler;
 	}
@@ -95,6 +95,7 @@ public class ComputeThread extends Thread {
 	public void run() {
 		try {
 			Similarity compare = compare(file1, file2);
+			handler.onStarted();
 			job.updateSimilarityValue(pairwiseComparison.getId(),
 					compare.getValue());
 			if (handler != null) {
@@ -106,7 +107,7 @@ public class ComputeThread extends Thread {
 			// HACK need status in comparison
 			job.updateSimilarityValue(pairwiseComparison.getId(), Double.NaN);
 			if (handler != null) {
-				handler.onDone(Double.NaN);
+				handler.onFailed("Error computing similarity", e1);
 			}
 			job.setStatus(pairwiseComparison.getId(), ComparisonStatus.FAILED);
 			log.error("Error computing similarity between " + file1 + " and "
@@ -136,6 +137,7 @@ public class ComputeThread extends Thread {
 					+ file2.getName() + " = " + value.getValue());
 			return value;
 		} else {
+			handler.onAborted("Unsupported types");
 			throw new UnsupportedTypeException();
 		}
 	}

@@ -6,7 +6,7 @@ package edu.illinois.ncsa.versus.cli;
 import java.io.File;
 import java.util.UUID;
 
-import edu.illinois.ncsa.versus.engine.impl.ComparisonDoneHandler;
+import edu.illinois.ncsa.versus.engine.impl.ComparisonStatusHandler;
 import edu.illinois.ncsa.versus.engine.impl.ExecutionEngine;
 import edu.illinois.ncsa.versus.engine.impl.PairwiseComparison;
 
@@ -15,13 +15,13 @@ import edu.illinois.ncsa.versus.engine.impl.PairwiseComparison;
  * 
  * Example use:
  * 
- * "VersusCLI /path/to/file/1 /path/to/file/2 
- * edu.illinois.ncsa.versus.adapter.impl.BytesAdapter 
- * edu.illinois.ncsa.versus.extract.impl.MD5Extractor 
+ * "VersusCLI /path/to/file/1 /path/to/file/2
+ * edu.illinois.ncsa.versus.adapter.impl.BytesAdapter
+ * edu.illinois.ncsa.versus.extract.impl.MD5Extractor
  * edu.illinois.ncsa.versus.measure.impl.MD5DistanceMeasure"
  * 
  * @author Luigi Marini <lmarini@ncsa.illinois.edu>
- *
+ * 
  */
 public class VersusCLI {
 
@@ -40,19 +40,38 @@ public class VersusCLI {
 			ExecutionEngine engine = new ExecutionEngine();
 
 			// submit to engine
-			engine.submit(comparison, new ComparisonDoneHandler() {
-			   @Override
-			   public void onDone(double value) {
-			      System.out.println("Comparison's result: " + value);
-			      System.exit(0);
-			   }
+			engine.submit(comparison, new ComparisonStatusHandler() {
+				@Override
+				public void onDone(double value) {
+					System.out.println("Comparison's result: " + value);
+					System.exit(0);
+				}
+
+				@Override
+				public void onStarted() {
+					System.out.println("Comparison started...");
+				}
+
+				@Override
+				public void onFailed(String msg, Exception e) {
+					System.out.println("Comparison failed! " + msg + "\n" + e);
+					System.exit(0);
+				}
+
+				@Override
+				public void onAborted(String msg) {
+					System.out.println("Comparison aborted! " + msg);
+					System.exit(0);
+				}
 			});
 		} else {
 			System.out.println("Please provide the following arguments:");
-			System.out.println("java VersusCLI dataset1 dataset2 adapter extractor measure");
+			System.out
+					.println("java VersusCLI dataset1 dataset2 adapter extractor measure");
 			System.out.println("For example:");
-			System.out.println("java VersusCLI file1.txt file2.txt edu.illinois.ncsa.versus.adapter.impl.BytesAdapter " +
-					"edu.illinois.ncsa.versus.extract.impl.MD5Extractor edu.illinois.ncsa.versus.measure.impl.MD5DistanceMeasure");
+			System.out
+					.println("java VersusCLI file1.txt file2.txt edu.illinois.ncsa.versus.adapter.impl.BytesAdapter "
+							+ "edu.illinois.ncsa.versus.extract.impl.MD5Extractor edu.illinois.ncsa.versus.measure.impl.MD5DistanceMeasure");
 			System.exit(1);
 		}
 	}
