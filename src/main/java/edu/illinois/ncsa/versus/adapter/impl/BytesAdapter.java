@@ -8,6 +8,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import edu.illinois.ncsa.versus.adapter.FileLoader;
 import edu.illinois.ncsa.versus.adapter.HasBytes;
 
@@ -15,11 +18,12 @@ import edu.illinois.ncsa.versus.adapter.HasBytes;
  * Get bytes from file.
  * 
  * @author Luigi Marini <lmarini@ncsa.illinois.edu>
- *
+ * 
  */
 public class BytesAdapter implements HasBytes, FileLoader {
 
 	private File file;
+	private static Log log = LogFactory.getLog(BytesAdapter.class);
 
 	@Override
 	public String getName() {
@@ -41,15 +45,16 @@ public class BytesAdapter implements HasBytes, FileLoader {
 	@Override
 	public byte[] getBytes() throws IOException {
 		try {
+			log.debug("Loading file " + file.getAbsolutePath());
 			InputStream is = new FileInputStream(file);
 			byte[] bytes = new byte[(int) file.length()];
 			int offset = 0;
-		    int numRead = 0;
-		    while (offset < bytes.length
-		               && (numRead=is.read(bytes, offset, bytes.length-offset)) >= 0) {
-		    	offset += numRead;
-		    }
-		    return bytes;
+			int numRead = 0;
+			while (offset < bytes.length
+					&& (numRead = is.read(bytes, offset, bytes.length - offset)) >= 0) {
+				offset += numRead;
+			}
+			return bytes;
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

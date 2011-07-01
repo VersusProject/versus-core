@@ -7,30 +7,32 @@ import java.io.File;
 import java.io.Serializable;
 
 /**
- * @author lmarini
- *
+ * A pairwise comparison between two files based on an adapter, extractor,
+ * measure triple.
+ * 
+ * @author Luigi Marini <lmarini@ncsa.illinois.edu>
+ * 
  */
 @SuppressWarnings("serial")
 public class PairwiseComparison implements Serializable {
-	
+
 	private String id;
-	
+
 	private File firstDataset;
 
 	private File secondDataset;
-	
+
 	private String adapterId;
-	
+
 	private String extractorId;
-	
+
 	private String measureId;
-	
+
 	private Double similarity;
-	
+
 	public PairwiseComparison() {
-		// TODO Auto-generated constructor stub
 	}
-	
+
 	/**
 	 * @return the firstDataset
 	 */
@@ -39,7 +41,8 @@ public class PairwiseComparison implements Serializable {
 	}
 
 	/**
-	 * @param firstDataset the firstDataset to set
+	 * @param firstDataset
+	 *            the firstDataset to set
 	 */
 	public void setFirstDataset(File firstDataset) {
 		this.firstDataset = firstDataset;
@@ -53,7 +56,8 @@ public class PairwiseComparison implements Serializable {
 	}
 
 	/**
-	 * @param secondDataset the secondDataset to set
+	 * @param secondDataset
+	 *            the secondDataset to set
 	 */
 	public void setSecondDataset(File secondDataset) {
 		this.secondDataset = secondDataset;
@@ -67,7 +71,8 @@ public class PairwiseComparison implements Serializable {
 	}
 
 	/**
-	 * @param similarity the similarity to set
+	 * @param similarity
+	 *            the similarity to set
 	 */
 	public void setSimilarity(Double similarity) {
 		this.similarity = similarity;

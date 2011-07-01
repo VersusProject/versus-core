@@ -12,9 +12,11 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * A collection of {@link PairwiseComparison}.
+ * A job is a collection of {@link PairwiseComparison} that are submitted to an
+ * engine. It includes a start/end timestamp and a status for each pairwise
+ * comparison.
  * 
- * @author lmarini
+ * @author Luigi Marini <lmarini@ncsa.illinois.edu>
  * 
  */
 @SuppressWarnings("serial")
@@ -46,7 +48,7 @@ public class Job implements Serializable {
 		comparisons.add(comparison);
 	}
 
-	public Set<PairwiseComparison> getComparison() {
+	public Set<PairwiseComparison> getComparisons() {
 		return comparisons;
 	}
 

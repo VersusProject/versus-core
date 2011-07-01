@@ -18,7 +18,9 @@ import edu.illinois.ncsa.versus.measure.Measure;
 import edu.illinois.ncsa.versus.measure.Similarity;
 
 /**
- * @author Luigi Marini
+ * A thread dedicated to running a specific comparison between two files.
+ * 
+ * @author Luigi Marini <lmarini@ncsa.illinois.edu>
  * 
  */
 public class ComputeThread extends Thread {
@@ -82,9 +84,9 @@ public class ComputeThread extends Thread {
 		file2 = pairwiseComparison.getSecondDataset();
 	}
 
-	public ComputeThread(PairwiseComparison pairwiseComparison2, Job job2,
+	public ComputeThread(PairwiseComparison pairwiseComparison, Job job,
 			ComparisonStatusHandler handler) {
-		this(pairwiseComparison2, job2);
+		this(pairwiseComparison, job);
 		this.handler = handler;
 	}
 
@@ -104,7 +106,7 @@ public class ComputeThread extends Thread {
 			log.debug("Done computing similarity between " + file1 + " and "
 					+ file2 + " = " + compare.getValue());
 		} catch (Exception e1) {
-			// HACK need status in comparison
+			// TODO need status in comparison
 			job.updateSimilarityValue(pairwiseComparison.getId(), Double.NaN);
 			if (handler != null) {
 				handler.onFailed("Error computing similarity", e1);

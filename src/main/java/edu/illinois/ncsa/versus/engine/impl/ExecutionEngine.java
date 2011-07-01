@@ -12,6 +12,12 @@ import org.apache.commons.logging.LogFactory;
 
 import edu.illinois.ncsa.versus.engine.impl.Job.ComparisonStatus;
 
+/**
+ * Multithreaded comparison engine.
+ * 
+ * @author Luigi Marini <lmarini@ncsa.illinois.edu>
+ * 
+ */
 public class ExecutionEngine {
 
 	private static final int EXECUTION_THREADS = 1;
@@ -31,7 +37,7 @@ public class ExecutionEngine {
 	 */
 	public void submit(Job job) {
 		jobs.add(job);
-		Set<PairwiseComparison> comparison = job.getComparison();
+		Set<PairwiseComparison> comparison = job.getComparisons();
 		for (PairwiseComparison pairwiseComparison : comparison) {
 			ComputeThread computeThread = new ComputeThread(pairwiseComparison,
 					job);
@@ -44,11 +50,14 @@ public class ExecutionEngine {
 	/**
 	 * Execute each comparison in its own thread.
 	 * 
+	 * FIXME each PairwiseComparison in a job needs an individual handler or
+	 * there needs to be a JobStatusHandler
+	 * 
 	 * @param job
 	 */
 	public void submit(Job job, ComparisonStatusHandler handler) {
 		jobs.add(job);
-		Set<PairwiseComparison> comparison = job.getComparison();
+		Set<PairwiseComparison> comparison = job.getComparisons();
 		for (PairwiseComparison pairwiseComparison : comparison) {
 			ComputeThread computeThread = new ComputeThread(pairwiseComparison,
 					job, handler);
@@ -58,6 +67,12 @@ public class ExecutionEngine {
 		log.debug("Job submitted");
 	}
 
+	/**
+	 * Retrieve job by jobId from internal cache.
+	 * 
+	 * @param jobId
+	 * @return
+	 */
 	public Job getJob(String jobId) {
 		for (Job job : jobs) {
 			if (job.getId().equals(jobId)) {
@@ -68,6 +83,12 @@ public class ExecutionEngine {
 		return null;
 	}
 
+	/**
+	 * Submit a single pairwise comparison.
+	 * 
+	 * @param comparison
+	 * @return
+	 */
 	public Job submit(PairwiseComparison comparison) {
 		Job job = new Job();
 		job.setId(UUID.randomUUID().toString());
@@ -76,6 +97,13 @@ public class ExecutionEngine {
 		return job;
 	}
 
+	/**
+	 * Submit a single pairwise comparison and a comparison status handler.
+	 * 
+	 * @param comparison
+	 * @param handler
+	 * @return
+	 */
 	public Job submit(PairwiseComparison comparison,
 			ComparisonStatusHandler handler) {
 		Job job = new Job();
