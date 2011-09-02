@@ -53,7 +53,7 @@ public class VersusCLI {
 				}
 
 				@Override
-				public void onFailed(String msg, Exception e) {
+				public void onFailed(String msg, Throwable e) {
 					System.out.println("Comparison failed! " + msg + "\n" + e);
 					System.exit(0);
 				}

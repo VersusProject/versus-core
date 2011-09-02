@@ -105,7 +105,7 @@ public class ComputeThread extends Thread {
 			}
 			log.debug("Done computing similarity between " + file1 + " and "
 					+ file2 + " = " + compare.getValue());
-		} catch (Exception e1) {
+		} catch (Throwable e1) {
 			// TODO need status in comparison
 			job.updateSimilarityValue(pairwiseComparison.getId(), Double.NaN);
 			if (handler != null) {

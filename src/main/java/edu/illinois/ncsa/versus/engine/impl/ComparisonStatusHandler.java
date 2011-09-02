@@ -12,7 +12,7 @@ public interface ComparisonStatusHandler {
 
 	void onStarted();
 
-	void onFailed(String msg, Exception e);
+	void onFailed(String msg, Throwable e);
 
 	void onAborted(String msg);
 }
