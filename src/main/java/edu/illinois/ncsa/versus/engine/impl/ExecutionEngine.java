@@ -108,6 +108,9 @@ public class ExecutionEngine {
 			ComparisonStatusHandler handler) {
 		Job job = new Job();
 		job.setId(UUID.randomUUID().toString());
+		if (comparison.getId() == null) {
+			comparison.setId(UUID.randomUUID().toString());
+		}
 		job.addComparison(comparison);
 		submit(job, handler);
 		return job;
