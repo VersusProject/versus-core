@@ -3,4 +3,3 @@ edu.illinois.ncsa.versus.measure.impl.EuclideanDistanceMeasure
 edu.illinois.ncsa.versus.measure.impl.MD5DistanceMeasure
 edu.illinois.ncsa.versus.measure.impl.ManhattanDistanceMeasure
 edu.illinois.ncsa.versus.measure.impl.ChessboardDistanceMeasure
-edu.illinois.ncsa.versus.measure.impl.MahalanobisDistanceMeasure
