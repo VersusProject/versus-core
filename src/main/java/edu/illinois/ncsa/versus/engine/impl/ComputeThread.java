@@ -96,8 +96,8 @@ public class ComputeThread extends Thread {
 	@Override
 	public void run() {
 		try {
-			Similarity compare = compare(file1, file2);
 			handler.onStarted();
+			Similarity compare = compare(file1, file2);
 			job.updateSimilarityValue(pairwiseComparison.getId(),
 					compare.getValue());
 			if (handler != null) {
