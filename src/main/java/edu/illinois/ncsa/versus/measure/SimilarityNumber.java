@@ -10,9 +10,21 @@ package edu.illinois.ncsa.versus.measure;
 public class SimilarityNumber implements Similarity {
 
 	private final double distance;
+	private final double equality;
+	private final double min;
+	private final double max;
 
 	public SimilarityNumber(double distance) {
+		this(distance, -Double.MAX_VALUE, Double.MAX_VALUE, 0);
+	}
+
+	public SimilarityNumber(double distance, double min, double max,
+			double equality) {
 		this.distance = distance;
+		this.min = min;
+		this.max = max;
+		this.equality = equality;
+
 	}
 
 	@Override
@@ -34,19 +46,16 @@ public class SimilarityNumber implements Similarity {
 
 	@Override
 	public double getEqualityValue() {
-		// TODO Auto-generated method stub
-		return 0;
+		return equality;
 	}
 
 	@Override
 	public double getSimilarityMin() {
-		// TODO Auto-generated method stub
-		return 0;
+		return min;
 	}
 
 	@Override
 	public double getSimilarityMax() {
-		// TODO Auto-generated method stub
-		return 0;
+		return max;
 	}
 }
