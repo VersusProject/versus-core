@@ -16,7 +16,7 @@ import edu.illinois.ncsa.versus.measure.SimilarityPercentage;
  */
 public class DummyMeasure implements Measure {
 
-	private static final long SLEEP = 10000;
+	private static final long SLEEP = 1000;
 
 	@Override
 	public Similarity compare(Descriptor feature1, Descriptor feature2)
