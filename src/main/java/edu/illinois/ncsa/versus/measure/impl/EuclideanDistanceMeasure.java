@@ -40,7 +40,7 @@ public class EuclideanDistanceMeasure implements Measure {
 			sum += Math.pow(feature1.getValue(i) - feature2.getValue(i), 2);
 		}
 
-		return new SimilarityNumber(Math.sqrt(sum / feature1.getLength()));
+		return new SimilarityNumber(Math.sqrt(sum));
 	}
 
 	/**
@@ -74,9 +74,9 @@ public class EuclideanDistanceMeasure implements Measure {
 			for(int j=0; j<arr1.length; j++) {
 				subsum += Math.pow(arr1[j] - arr2[j], 2);
 			}
-			sum += Math.sqrt(subsum / arr1.length);
+			sum += Math.sqrt(subsum);
 		}
-		return new SimilarityNumber(Math.sqrt(sum / feature1.size()));
+		return new SimilarityNumber(Math.sqrt(sum));
 	}
 
 	/**
