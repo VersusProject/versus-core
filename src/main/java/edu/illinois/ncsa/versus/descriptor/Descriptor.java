@@ -30,4 +30,5 @@ public interface Descriptor {
 	 * @return a unique string
 	 */
 	public String getType();
+		
 }

@@ -55,4 +55,9 @@ public class DummyExtractor implements Extractor {
 		return DummyFeature.class;
 	}
 
+	@Override
+	public boolean hasPreview() {
+		return false;
+	}
+
 }
