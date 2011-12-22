@@ -54,4 +54,12 @@ public interface Extractor {
 	 * @return the class type of the output feature
 	 */
 	Class<? extends Descriptor> getFeatureType();
+	
+	/**
+	 * The state of the preview function for the descriptor.
+	 * 
+	 * @return true if descriptor has preview, false if not
+	 */
+	public boolean hasPreview();
+	
 }
