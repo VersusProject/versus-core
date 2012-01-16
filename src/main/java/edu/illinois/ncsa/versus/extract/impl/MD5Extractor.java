@@ -58,5 +58,10 @@ public class MD5Extractor implements Extractor {
 	public boolean hasPreview() {
 		return false;
 	}
+	
+	@Override
+	public String previewName(){
+		return null;
+	}
 
 }

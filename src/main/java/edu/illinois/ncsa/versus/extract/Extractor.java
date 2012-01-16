@@ -55,11 +55,17 @@ public interface Extractor {
 	 */
 	Class<? extends Descriptor> getFeatureType();
 	
-	/**
-	 * The state of the preview function for the descriptor.
-	 * 
-	 * @return true if descriptor has preview, false if not
-	 */
+	
 	public boolean hasPreview();
+	
+	/**
+	 * 
+	 * NULL if no preview for the extractor, if there is a visualizer class for the specified preview, then return the name of visualuzer class
+	 * 
+	 * e.g. the MD5Extractor visualizer class is named MD5Visualizer, which is what this function returns.
+	 * 
+	 * @return the name of the visualizer class (with the preview) for the specified extractor
+	 */
+	public String previewName();
 	
 }
