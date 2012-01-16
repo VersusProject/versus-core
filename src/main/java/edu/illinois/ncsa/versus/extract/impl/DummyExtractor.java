@@ -60,4 +60,8 @@ public class DummyExtractor implements Extractor {
 		return false;
 	}
 
+	@Override
+	public String previewName(){
+		return null;
+	}
 }
