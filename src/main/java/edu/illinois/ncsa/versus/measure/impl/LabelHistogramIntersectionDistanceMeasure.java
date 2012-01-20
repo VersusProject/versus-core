@@ -30,8 +30,10 @@ public class LabelHistogramIntersectionDistanceMeasure implements Measure {
     }
 
     @Override
-    public String getFeatureType() {
-        return LabelHistogramDescriptor.class.getName();
+	public Set<Class<? extends Descriptor>> supportedFeaturesTypes() {
+        Set<Class<? extends Descriptor>> featuresTypes = new HashSet<Class<? extends Descriptor>>(1);
+        featuresTypes.add(LabelHistogramDescriptor.class);
+        return featuresTypes;
     }
 
     @Override

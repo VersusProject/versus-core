@@ -4,6 +4,8 @@
 package edu.illinois.ncsa.versus.measure;
 
 import edu.illinois.ncsa.versus.descriptor.Descriptor;
+import edu.illinois.ncsa.versus.descriptor.Feature;
+import java.util.Set;
 
 /**
  * A similarity measure requires the ability to compare two features.
@@ -40,11 +42,11 @@ public interface Measure {
 	SimilarityPercentage normalize(Similarity similarity);
 
 	/**
-	 * The type of the feature used by this measure.
+	 * The set of features types supported by this measure.
 	 * 
-	 * @return a unique string identifying the type
+	 * @return features types supported by the measure
 	 */
-	String getFeatureType();
+	Set<Class<? extends Descriptor>> supportedFeaturesTypes();
 
 	/**
 	 * The pretty name for the metric to use in applications.

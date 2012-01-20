@@ -4,16 +4,15 @@
 package edu.illinois.ncsa.versus.registry;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 
 import sun.misc.Service;
 import edu.illinois.ncsa.versus.adapter.Adapter;
 import edu.illinois.ncsa.versus.descriptor.Descriptor;
 import edu.illinois.ncsa.versus.extract.Extractor;
 import edu.illinois.ncsa.versus.measure.Measure;
+import java.util.Set;
 
 /**
  * Registry of available extractors, features, measures.
@@ -22,12 +21,6 @@ import edu.illinois.ncsa.versus.measure.Measure;
  * 
  */
 public class CompareRegistry {
-
-	/**
-	 * A map between feature ids and extractors capable of producing that
-	 * feature type
-	 **/
-	private final Map<String, Collection<Extractor>> featureToExtractorsMap;
 
 	/**
 	 * Collection of known measures.
@@ -50,7 +43,6 @@ public class CompareRegistry {
 	 * Create an instance and load known extractors.
 	 */
 	public CompareRegistry() {
-		featureToExtractorsMap = new HashMap<String, Collection<Extractor>>();
 		measures = new HashSet<Measure>();
 		features = new HashSet<Descriptor>();
 		extractors = new HashSet<Extractor>();
@@ -90,8 +82,8 @@ public class CompareRegistry {
 	 * 
 	 * @return keys of available features
 	 */
-	public Collection<String> getAvailableFeatures() {
-		return featureToExtractorsMap.keySet();
+	public Collection<Descriptor> getAvailableFeatures() {
+		return features;
 	}
 
 	/**
@@ -104,30 +96,6 @@ public class CompareRegistry {
 	}
 
 	/**
-	 * Given the key of a feature, return an instance of that feature.
-	 * 
-	 * @param key
-	 *            of feature
-	 * @return an instance of a feature
-	 */
-	public Descriptor getFeature(String key) {
-		return null;
-	}
-
-	/**
-	 * Given a feature type return all extractors know to extract this type.
-	 * 
-	 * @param string
-	 *            a unique string identifying the feature type
-	 * @return a collection of extractors
-	 * @deprecated
-	 */
-	@Deprecated
-	public Collection<Extractor> getAvailableExtractors(String featureType) {
-		return featureToExtractorsMap.get(featureType);
-	}
-
-	/**
 	 * Get all available extractors.
 	 * 
 	 * @return a collection of extractors
@@ -135,6 +103,30 @@ public class CompareRegistry {
 	public Collection<Extractor> getAvailableExtractors() {
 		return extractors;
 	}
+    
+    /**
+     * Get all available extractors which support the given adapter
+     * @param adapter
+     * @return 
+     */
+    public Collection<Extractor> getAvailableExtractors(Adapter adapter) {
+        Class[] interfaces = adapter.getClass().getInterfaces();
+        Collection<Extractor> ex = new HashSet<Extractor>();
+        for(Extractor extractor : extractors) {
+            Set<Class<? extends Adapter>> supportedAdaptersTypes = extractor.supportedAdapters();
+            if(supportedAdaptersTypes.contains(adapter.getClass())) {
+                ex.add(extractor);
+            } else {
+                for(Class inter : interfaces) {
+                    if(supportedAdaptersTypes.contains(inter)) {
+                        ex.add(extractor);
+                        break;
+                    }
+                } 
+            }
+        }
+        return ex;
+    }
 
 	/**
 	 * Get all adapters known to the system.
@@ -144,6 +136,30 @@ public class CompareRegistry {
 	public Collection<Adapter> getAvailableAdapters() {
 		return adapters;
 	}
+    
+    /**
+     * Get all available adapters supported by the specified extractor
+     * @param extractor
+     * @return 
+     */
+    public Collection<Adapter> getAvailableAdapters(Extractor extractor) {
+        Collection<Adapter> ad = new HashSet<Adapter>();
+        Set<Class<? extends Adapter>> supportedAdaptersTypes = extractor.supportedAdapters();
+        for(Adapter adapter : adapters) {
+            if(supportedAdaptersTypes.contains(adapter.getClass())) {
+                ad.add(adapter);
+            } else {
+                Class[] interfaces = adapter.getClass().getInterfaces();
+                for(Class inter : interfaces) {
+                    if(supportedAdaptersTypes.contains(inter)) {
+                        ad.add(adapter);
+                        break;
+                    }
+                }
+            }
+        }
+        return ad;
+    }
 
 	/**
 	 * Get all adapters ids known to the system.
@@ -157,4 +173,5 @@ public class CompareRegistry {
 		}
 		return adaptersIds;
 	}
+    
 }

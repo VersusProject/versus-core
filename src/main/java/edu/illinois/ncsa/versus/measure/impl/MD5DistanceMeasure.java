@@ -9,6 +9,8 @@ import edu.illinois.ncsa.versus.measure.Measure;
 import edu.illinois.ncsa.versus.measure.Similarity;
 import edu.illinois.ncsa.versus.measure.SimilarityNumber;
 import edu.illinois.ncsa.versus.measure.SimilarityPercentage;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * MD5 Digest distance. Distance is 1 if the digests are equal, 0 otherwise.
@@ -42,8 +44,10 @@ public class MD5DistanceMeasure implements Measure {
 	}
 
 	@Override
-	public String getFeatureType() {
-		return MD5Digest.class.getName();
+	public Set<Class<? extends Descriptor>> supportedFeaturesTypes() {
+        Set<Class<? extends Descriptor>> featuresTypes = new HashSet<Class<? extends Descriptor>>(1);
+        featuresTypes.add(MD5Digest.class);
+        return featuresTypes;
 	}
 
 	@Override

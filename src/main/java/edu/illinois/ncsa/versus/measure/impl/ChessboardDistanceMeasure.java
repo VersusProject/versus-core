@@ -9,6 +9,8 @@ import edu.illinois.ncsa.versus.measure.Measure;
 import edu.illinois.ncsa.versus.measure.Similarity;
 import edu.illinois.ncsa.versus.measure.SimilarityNumber;
 import edu.illinois.ncsa.versus.measure.SimilarityPercentage;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Chessboard (Chebyshev or Maximum value) distance of two vector features.
@@ -131,8 +133,12 @@ public class ChessboardDistanceMeasure implements Measure {
 	}
 
 	@Override
-	public String getFeatureType() {
-		return ThreeDimensionalDoubleArrayFeature.class.getName();
+	public Set<Class<? extends Descriptor>> supportedFeaturesTypes() {
+        Set<Class<? extends Descriptor>> featuresTypes = new HashSet<Class<? extends Descriptor>>(3);
+        featuresTypes.add(DoubleArrayFeature.class);
+        featuresTypes.add(VectorFeature.class);
+        featuresTypes.add(ThreeDimensionalDoubleArrayFeature.class);
+        return featuresTypes;
 	}
 
 	@Override

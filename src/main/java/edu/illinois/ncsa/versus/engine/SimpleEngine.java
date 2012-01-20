@@ -17,6 +17,7 @@ import edu.illinois.ncsa.versus.descriptor.Descriptor;
 import edu.illinois.ncsa.versus.extract.Extractor;
 import edu.illinois.ncsa.versus.measure.Measure;
 import edu.illinois.ncsa.versus.registry.CompareRegistry;
+import java.util.Set;
 
 /**
  * Simple engine to compare a list of files with eachother.
@@ -27,90 +28,106 @@ import edu.illinois.ncsa.versus.registry.CompareRegistry;
 @Deprecated
 public class SimpleEngine {
 
-	private File[] files;
+    private File[] files;
 
-	/** Commons logging **/
-	private static Log log = LogFactory.getLog(SimpleEngine.class);
+    /** Commons logging **/
+    private static Log log = LogFactory.getLog(SimpleEngine.class);
 
-	public SimpleEngine() {
-	}
+    public SimpleEngine() {
+    }
 
-	public void add(File... files) {
-		this.files = files;
-	}
+    public void add(File... files) {
+        this.files = files;
+    }
 
-	public <S> Collection<S> compareAll(File[] files,
-			Measure similarityMeasure) {
+    public <S> Collection<S> compareAll(File[] files,
+            Measure similarityMeasure) {
 
-		Collection<S> similarityValues = new HashSet<S>();
+        Collection<S> similarityValues = new HashSet<S>();
 
-		Extractor chooseExtractor = chooseExtractor(similarityMeasure);
+        Extractor chooseExtractor = chooseExtractor(similarityMeasure);
 
-		if (chooseExtractor != null) {
-			Collection<Descriptor> features = extractFiles(files, chooseExtractor);
+        if (chooseExtractor != null) {
+            Collection<Descriptor> features = extractFiles(files, chooseExtractor);
 
-			for (Descriptor feature1 : features) {
-				for (Descriptor feature2 : features) {
-					if (feature1 != feature2) {
-						// similarityMeasure.compare(feature1, feature2);
-					}
-				}
-			}
+            for (Descriptor feature1 : features) {
+                for (Descriptor feature2 : features) {
+                    if (feature1 != feature2) {
+                        // similarityMeasure.compare(feature1, feature2);
+                    }
+                }
+            }
 
-		}
-		return similarityValues;
-	}
+        }
+        return similarityValues;
+    }
 
-	/**
-	 * Extract features from files.
-	 * 
-	 * @param files
-	 * @param extractor
-	 */
-	private Collection<Descriptor> extractFiles(File[] files, Extractor extractor) {
+    /**
+     * Extract features from files.
+     * 
+     * @param files
+     * @param extractor
+     */
+    private Collection<Descriptor> extractFiles(File[] files, Extractor extractor) {
 
-		Collection<Descriptor> features = new HashSet<Descriptor>();
+        Collection<Descriptor> features = new HashSet<Descriptor>();
 
-		for (File file : files) {
-			FileLoader newAdapter = (FileLoader) extractor.newAdapter();
-			try {
-				newAdapter.load(file);
-			} catch (IOException e) {
-				log.error("Error loading image" + e);
-			}
-			try {
-				Descriptor feature = extractor.extract(newAdapter);
-				features.add(feature);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return features;
-	}
+        for (File file : files) {
+            FileLoader newAdapter = (FileLoader) extractor.newAdapter();
+            try {
+                newAdapter.load(file);
+            } catch (IOException e) {
+                log.error("Error loading image" + e);
+            }
+            try {
+                Descriptor feature = extractor.extract(newAdapter);
+                features.add(feature);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        return features;
+    }
 
-	/**
-	 * Return the first available extractor for a particular measure.
-	 * 
-	 * @param similarityMeasure
-	 * @return
-	 */
-	private Extractor chooseExtractor(Measure similarityMeasure) {
+    /**
+     * Return the first available extractor for a particular measure.
+     * 
+     * @param similarityMeasure
+     * @return
+     */
+    private Extractor chooseExtractor(Measure similarityMeasure) {
 
-		CompareRegistry registry = new CompareRegistry();
+        CompareRegistry registry = new CompareRegistry();
 
-		Collection<Extractor> availableExtractors = registry
-				.getAvailableExtractors(similarityMeasure.getFeatureType());
+        Set<Class<? extends Descriptor>> features = similarityMeasure.supportedFeaturesTypes();
+        Descriptor feature = null;
 
-		Iterator<Extractor> iterator = availableExtractors.iterator();
+        Collection<Descriptor> availablesFeatures = registry.getAvailableFeatures();
+        Iterator<Descriptor> featureIterator = availablesFeatures.iterator();
+        while (featureIterator.hasNext()) {
+            feature = featureIterator.next();
+            if (features.contains(feature.getClass())) {
+                log.debug("Using feature " + feature.getName());
+                break;
+            }
+            feature = null;
+        }
+        if (feature == null) {
+            return null;
+        }
 
-		// for now only use the first extractor in the list
-		if (iterator.hasNext()) {
-			Extractor extractor = iterator.next();
-			log.debug("Using extractor " + extractor.getName());
-			return extractor;
-		}
+        Collection<Extractor> availableExtractors = registry.getAvailableExtractors();
+        Iterator<Extractor> iterator = availableExtractors.iterator();
 
-		return null;
-	}
+        while (iterator.hasNext()) {
+            Extractor extractor = iterator.next();
+            if (feature.getClass().equals(extractor.getFeatureType())) {
+                log.debug("Using extractor " + extractor.getName());
+                return extractor;
+            }
+        }
+
+        return null;
+    }
 }

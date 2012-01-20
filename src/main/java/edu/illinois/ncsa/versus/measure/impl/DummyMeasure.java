@@ -5,10 +5,13 @@ package edu.illinois.ncsa.versus.measure.impl;
 
 import edu.illinois.ncsa.versus.descriptor.Descriptor;
 import edu.illinois.ncsa.versus.descriptor.impl.DummyFeature;
+import edu.illinois.ncsa.versus.descriptor.impl.DummyFeature2;
 import edu.illinois.ncsa.versus.measure.Measure;
 import edu.illinois.ncsa.versus.measure.Similarity;
 import edu.illinois.ncsa.versus.measure.SimilarityNumber;
 import edu.illinois.ncsa.versus.measure.SimilarityPercentage;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author lmarini
@@ -32,8 +35,11 @@ public class DummyMeasure implements Measure {
 	}
 
 	@Override
-	public String getFeatureType() {
-		return DummyFeature.class.getName();
+	public Set<Class<? extends Descriptor>> supportedFeaturesTypes() {
+        Set<Class<? extends Descriptor>> featuresTypes = new HashSet<Class<? extends Descriptor>>(1);
+        featuresTypes.add(DummyFeature.class);
+        featuresTypes.add(DummyFeature2.class);
+        return featuresTypes;
 	}
 
 	@Override
