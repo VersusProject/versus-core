@@ -6,7 +6,7 @@
 	<description>Core Versus API</description>
 	<groupId>edu.illinois.ncsa.isda</groupId>
 	<version>0.6.0-SNAPSHOT</version>
-	<repositories>
+<!--	<repositories>
 		<repository>
 			<id>ncsa.opensource</id>
 			<name>NCSA Opensource Repository</name>
@@ -15,7 +15,7 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
-	</repositories>
+	</repositories>-->
 	<build>
 		<plugins>
 			<!-- compile -->
@@ -50,6 +50,7 @@
 				</executions>
 			</plugin>
 			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.2.1</version>
 				<configuration>
@@ -60,6 +61,15 @@
 						<descriptor>src/assemble/distribution.xml</descriptor>
 					</descriptors>
 				</configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                        <phase>package</phase> <!-- bind to the packaging phase -->
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
 			</plugin>
 		</plugins>
 		<pluginManagement>
@@ -135,7 +145,7 @@
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
-	<distributionManagement>
+<!--	<distributionManagement>
 		<repository>
 			<id>releases</id>
 			<url>https://opensource.ncsa.illinois.edu/nexus/content/repositories/releases</url>
@@ -146,5 +156,5 @@
 			<url>https://opensource.ncsa.illinois.edu/nexus/content/repositories/snapshots</url>
 			<uniqueVersion>false</uniqueVersion>
 		</snapshotRepository>
-	</distributionManagement>
+	</distributionManagement> -->
 </project>
