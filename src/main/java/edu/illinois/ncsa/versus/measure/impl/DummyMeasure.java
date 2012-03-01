@@ -3,6 +3,7 @@
  */
 package edu.illinois.ncsa.versus.measure.impl;
 
+import edu.illinois.ncsa.versus.category.HasCategory;
 import edu.illinois.ncsa.versus.descriptor.Descriptor;
 import edu.illinois.ncsa.versus.descriptor.impl.DummyFeature;
 import edu.illinois.ncsa.versus.descriptor.impl.DummyFeature2;
@@ -17,7 +18,7 @@ import java.util.Set;
  * @author lmarini
  * 
  */
-public class DummyMeasure implements Measure {
+public class DummyMeasure implements Measure, HasCategory {
 
 	private static final long SLEEP = 10000;
 
@@ -50,6 +51,11 @@ public class DummyMeasure implements Measure {
 	@Override
 	public Class<DummyMeasure> getType() {
 		return DummyMeasure.class;
+	}
+
+	@Override
+	public String getCategory() {
+		return "Test";
 	}
 
 }

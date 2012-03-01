@@ -3,6 +3,7 @@ package edu.illinois.ncsa.versus.measure.impl;
 import java.util.Arrays;
 
 import edu.illinois.ncsa.versus.UnsupportedTypeException;
+import edu.illinois.ncsa.versus.category.HasCategory;
 import edu.illinois.ncsa.versus.descriptor.Descriptor;
 import edu.illinois.ncsa.versus.descriptor.impl.MD5Digest;
 import edu.illinois.ncsa.versus.measure.Measure;
@@ -18,7 +19,7 @@ import java.util.Set;
  * @author Luigi Marini <lmarini@ncsa.illinois.edu>
  * 
  */
-public class MD5DistanceMeasure implements Measure {
+public class MD5DistanceMeasure implements Measure, HasCategory {
 
 	@Override
 	public Similarity compare(Descriptor feature1, Descriptor feature2)
@@ -58,6 +59,11 @@ public class MD5DistanceMeasure implements Measure {
 	@Override
 	public Class<MD5DistanceMeasure> getType() {
 		return MD5DistanceMeasure.class;
+	}
+
+	@Override
+	public String getCategory() {
+		return "Test";
 	}
 
 }
