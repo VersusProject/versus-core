@@ -55,7 +55,7 @@ public class DummyMeasure implements Measure, HasCategory {
 
 	@Override
 	public String getCategory() {
-		return "Test";
+		return "Dummy";
 	}
 
 }

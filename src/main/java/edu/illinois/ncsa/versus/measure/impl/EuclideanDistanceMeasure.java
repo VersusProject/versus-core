@@ -1,6 +1,7 @@
 package edu.illinois.ncsa.versus.measure.impl;
 
 import edu.illinois.ncsa.versus.UnsupportedTypeException;
+import edu.illinois.ncsa.versus.category.HasCategory;
 import edu.illinois.ncsa.versus.descriptor.Descriptor;
 import edu.illinois.ncsa.versus.descriptor.impl.DoubleArrayFeature;
 import edu.illinois.ncsa.versus.descriptor.impl.ThreeDimensionalDoubleArrayFeature;
@@ -18,7 +19,7 @@ import java.util.Set;
  * @author Luigi Marini
  * 
  */
-public class EuclideanDistanceMeasure implements Measure {
+public class EuclideanDistanceMeasure implements Measure, HasCategory {
 	/**
 	 * Compare two arrays of the same length.
 	 * 
@@ -168,5 +169,10 @@ public class EuclideanDistanceMeasure implements Measure {
 	@Override
 	public Class<EuclideanDistanceMeasure> getType() {
 		return EuclideanDistanceMeasure.class;
+	}
+
+	@Override
+	public String getCategory() {
+		return "Lp Minkowski family";
 	}
 }

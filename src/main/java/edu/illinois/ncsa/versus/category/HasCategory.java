@@ -11,6 +11,7 @@
  */
 package edu.illinois.ncsa.versus.category;
 
+
 public interface HasCategory {
 
 	String getCategory();

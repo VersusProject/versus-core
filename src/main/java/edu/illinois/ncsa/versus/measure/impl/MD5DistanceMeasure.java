@@ -19,7 +19,7 @@ import java.util.Set;
  * @author Luigi Marini <lmarini@ncsa.illinois.edu>
  * 
  */
-public class MD5DistanceMeasure implements Measure, HasCategory {
+public class MD5DistanceMeasure implements Measure {
 
 	@Override
 	public Similarity compare(Descriptor feature1, Descriptor feature2)
@@ -60,10 +60,4 @@ public class MD5DistanceMeasure implements Measure, HasCategory {
 	public Class<MD5DistanceMeasure> getType() {
 		return MD5DistanceMeasure.class;
 	}
-
-	@Override
-	public String getCategory() {
-		return "Test";
-	}
-
 }
