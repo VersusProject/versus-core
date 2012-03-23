@@ -3,19 +3,19 @@
  */
 package edu.illinois.ncsa.versus.adapter.impl;
 
+import edu.illinois.ncsa.versus.adapter.FileLoader;
+import edu.illinois.ncsa.versus.adapter.HasBytes;
+import edu.illinois.ncsa.versus.category.HasCategory;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.illinois.ncsa.versus.adapter.FileLoader;
-import edu.illinois.ncsa.versus.adapter.HasBytes;
-
 /**
  * @author lmarini
  * 
  */
-public class DummyAdapter implements HasBytes, FileLoader {
+public class DummyAdapter implements HasBytes, FileLoader, HasCategory {
 
 	private static final long SLEEP = 5000;
 
@@ -45,5 +45,10 @@ public class DummyAdapter implements HasBytes, FileLoader {
 	public byte[] getBytes() throws IOException {
 		return new byte[0];
 	}
+
+    @Override
+    public String getCategory() {
+        return "Dummy";
+    }
 
 }

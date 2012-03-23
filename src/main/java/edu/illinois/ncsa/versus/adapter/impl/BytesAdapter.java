@@ -1,18 +1,12 @@
 package edu.illinois.ncsa.versus.adapter.impl;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import edu.illinois.ncsa.versus.adapter.FileLoader;
 import edu.illinois.ncsa.versus.adapter.HasBytes;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Get bytes from file.
@@ -61,5 +55,4 @@ public class BytesAdapter implements HasBytes, FileLoader {
 		}
 		return new byte[0];
 	}
-
 }
