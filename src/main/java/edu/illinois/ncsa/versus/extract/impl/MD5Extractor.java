@@ -1,15 +1,15 @@
 package edu.illinois.ncsa.versus.extract.impl;
 
-import java.security.MessageDigest;
-import java.util.HashSet;
-import java.util.Set;
-
 import edu.illinois.ncsa.versus.UnsupportedTypeException;
 import edu.illinois.ncsa.versus.adapter.Adapter;
 import edu.illinois.ncsa.versus.adapter.HasBytes;
+import edu.illinois.ncsa.versus.category.HasCategory;
 import edu.illinois.ncsa.versus.descriptor.Descriptor;
 import edu.illinois.ncsa.versus.descriptor.impl.MD5Digest;
 import edu.illinois.ncsa.versus.extract.Extractor;
+import java.security.MessageDigest;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * TODO move to DigestInputStream instead of loading all bytes in memory.
@@ -17,7 +17,7 @@ import edu.illinois.ncsa.versus.extract.Extractor;
  * @author Luigi Marini <lmarini@ncsa.illinois.edu>
  *
  */
-public class MD5Extractor implements Extractor {
+public class MD5Extractor implements Extractor, HasCategory {
 
 	@Override
 	public Descriptor extract(Adapter adapter) throws Exception {
@@ -63,5 +63,10 @@ public class MD5Extractor implements Extractor {
 	public String previewName(){
 		return null;
 	}
+
+    @Override
+    public String getCategory() {
+        return "MD5";
+    }
 
 }

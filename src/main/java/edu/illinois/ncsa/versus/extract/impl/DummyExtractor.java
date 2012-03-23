@@ -3,22 +3,22 @@
  */
 package edu.illinois.ncsa.versus.extract.impl;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import edu.illinois.ncsa.versus.UnsupportedTypeException;
 import edu.illinois.ncsa.versus.adapter.Adapter;
 import edu.illinois.ncsa.versus.adapter.HasBytes;
 import edu.illinois.ncsa.versus.adapter.impl.DummyAdapter;
+import edu.illinois.ncsa.versus.category.HasCategory;
 import edu.illinois.ncsa.versus.descriptor.Descriptor;
 import edu.illinois.ncsa.versus.descriptor.impl.DummyFeature;
 import edu.illinois.ncsa.versus.extract.Extractor;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author lmarini
  * 
  */
-public class DummyExtractor implements Extractor {
+public class DummyExtractor implements Extractor, HasCategory {
 
 	private static final long SLEEP = 10000;
 
@@ -64,4 +64,9 @@ public class DummyExtractor implements Extractor {
 	public String previewName(){
 		return null;
 	}
+
+    @Override
+    public String getCategory() {
+        return "Dummy";
+    }
 }
