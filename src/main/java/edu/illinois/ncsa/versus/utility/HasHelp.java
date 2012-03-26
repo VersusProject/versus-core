@@ -9,11 +9,26 @@
  * any other characteristic. We would appreciate acknowledgement if the
  * software is used.
  */
-package edu.illinois.ncsa.versus.category;
+package edu.illinois.ncsa.versus.utility;
 
+import java.io.InputStream;
 
-public interface HasCategory {
-
-	String getCategory();
-	
+/**
+ *
+ * @author antoinev
+ */
+public interface HasHelp {
+    
+    /**
+     * Get the zipped help's InputStream
+     * @return 
+     */
+    InputStream getHelpZipped();
+    
+    /**
+     * Get zipped help SHA1 as a string
+     * @return the SHA1
+     */
+    String getHelpSHA1();
+    
 }
