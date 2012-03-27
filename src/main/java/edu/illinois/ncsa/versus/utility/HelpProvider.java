@@ -11,18 +11,11 @@
  */
 package edu.illinois.ncsa.versus.utility;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import edu.illinois.ncsa.versus.measure.impl.DummyMeasure;
 
 /**
  *
@@ -34,38 +27,21 @@ public class HelpProvider {
     }
 
     public static InputStream getHelpZipped(Class helpClass) {
-        URL helpPath = getHelpPath(helpClass);
-        if (helpPath == null) {
-            return null;
-        }
-        try {
-            return new FileInputStream(new File(helpPath.toURI()));
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(DummyMeasure.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(DummyMeasure.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return helpClass.getResourceAsStream("help/" + helpClass.getSimpleName() + ".zip");
     }
 
     public static String getHelpSHA1(Class helpClass) {
-        URL helpPath = getHelpPath(helpClass);
-        if (helpPath == null) {
+        InputStream helpStream = getHelpZipped(helpClass);
+        if (helpStream == null) {
             return null;
         }
         try {
-            return Hasher.getHash(new File(helpPath.toURI()), "SHA1");
+            return Hasher.getHash(helpStream, "SHA1");
         } catch (IOException ex) {
             Logger.getLogger(HelpProvider.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(DummyMeasure.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(HelpProvider.class.getName()).log(Level.SEVERE, "SHA1 algorithm not found.", ex);
         }
         return null;
-    }
-
-    private static URL getHelpPath(Class helpClass) {
-        return helpClass.getResource("help/" + helpClass.getSimpleName() + ".zip");
     }
 }
