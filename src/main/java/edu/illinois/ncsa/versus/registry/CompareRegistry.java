@@ -6,13 +6,13 @@ package edu.illinois.ncsa.versus.registry;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.ServiceLoader;
+import java.util.Set;
 
-import sun.misc.Service;
 import edu.illinois.ncsa.versus.adapter.Adapter;
 import edu.illinois.ncsa.versus.descriptor.Descriptor;
 import edu.illinois.ncsa.versus.extract.Extractor;
 import edu.illinois.ncsa.versus.measure.Measure;
-import java.util.Set;
 
 /**
  * Registry of available extractors, features, measures.
@@ -56,21 +56,21 @@ public class CompareRegistry {
 	 * TODO switch to dynamic loading
 	 */
 	private void populateRegistry() {
-		Iterator<Adapter> iter = Service.providers(Adapter.class);
+		Iterator<Adapter> iter = ServiceLoader.load(Adapter.class).iterator();
 		while (iter.hasNext()) {
 			Adapter adapter = iter.next();
 			adapters.add(adapter);
 		}
 
 		// measures
-		Iterator<Measure> iterMeasure = Service.providers(Measure.class);
+		Iterator<Measure> iterMeasure = ServiceLoader.load(Measure.class).iterator();
 		while (iterMeasure.hasNext()) {
 			Measure measure = iterMeasure.next();
 			measures.add(measure);
 		}
 
 		// array feature extractors
-		Iterator<Extractor> iterExtractor = Service.providers(Extractor.class);
+		Iterator<Extractor> iterExtractor = ServiceLoader.load(Extractor.class).iterator();
 		while (iterExtractor.hasNext()) {
 			Extractor extractor = iterExtractor.next();
 			extractors.add(extractor);
