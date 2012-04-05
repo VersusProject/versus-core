@@ -178,4 +178,18 @@ public class CompareRegistry {
     public Collection<Measure> getAvailableMeasures() {
         return measures.values();
     }
+
+    /**
+     * Determines if the registry support the comparison
+     * @param adapterId
+     * @param extractorId
+     * @param measureId
+     * @return 
+     */
+    public boolean supportComparison(String adapterId, String extractorId,
+            String measureId) {
+        return adapters.containsKey(adapterId)
+                && extractors.containsKey(extractorId)
+                && measures.containsKey(measureId);
+    }
 }
