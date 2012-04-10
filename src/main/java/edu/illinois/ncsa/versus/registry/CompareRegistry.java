@@ -166,7 +166,7 @@ public class CompareRegistry {
         return measures.get(measureId);
     }
 
-    public Collection<String> getAvailableMeasureId() {
+    public Collection<String> getAvailableMeasuresId() {
         return measures.keySet();
     }
 
