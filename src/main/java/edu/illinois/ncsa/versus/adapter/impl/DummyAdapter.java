@@ -32,6 +32,7 @@ public class DummyAdapter implements HasBytes, FileLoader, HasCategory, HasHelp 
 	public List<String> getSupportedMediaTypes() {
 		List<String> mediaTypes = new ArrayList<String>();
 		mediaTypes.add("*/*");
+        mediaTypes.add("text/plain");
 		return mediaTypes;
 	}
 
