@@ -4,16 +4,17 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class ComprehensiveEngineTest extends TestCase {
+import static org.junit.Assert.*;
+import org.junit.Test;
+
+public class ComprehensiveEngineTest {
 
 	private static Log log = LogFactory.getLog(ComprehensiveEngineTest.class);
 
-	@org.junit.Test
+	@Test
 	public void testCompute() {
 		ComprehensiveEngine engine = new ComprehensiveEngine();
 		List<PairwiseComparison> comparisons = new ArrayList<PairwiseComparison>();
@@ -21,11 +22,8 @@ public class ComprehensiveEngineTest extends TestCase {
 		weights.add(2.0);
 		weights.add(2.0);
 
-		// FIXME change to relative paths to local test files
-		File file1 = new File(
-				"/Users/lmarini/Desktop/nara-test/jpg/0/24p073.jpg");
-		File file2 = new File(
-				"/Users/lmarini/Desktop/nara-test/jpg/0/24p073.jpg");
+		File file1 = new File("data/test_1.jpg");
+		File file2 = new File("data/test_1.jpg");
 
 		String prefix = "edu.illinois.ncsa.versus.";
 
@@ -51,6 +49,6 @@ public class ComprehensiveEngineTest extends TestCase {
 		Double result = engine.compute(comparisons, weights);
 		log.debug("Results is " + result);
 
-		assertEquals(4.0, result);
+        assertEquals(4.0, result, 0);
 	}
 }
