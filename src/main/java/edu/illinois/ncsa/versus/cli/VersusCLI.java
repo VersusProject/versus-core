@@ -4,6 +4,8 @@
 package edu.illinois.ncsa.versus.cli;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.UUID;
 
 import edu.illinois.ncsa.versus.engine.impl.ComparisonStatusHandler;
@@ -25,13 +27,13 @@ import edu.illinois.ncsa.versus.engine.impl.PairwiseComparison;
  */
 public class VersusCLI {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 		if (args.length == 5) {
 			// create new comparison
 			PairwiseComparison comparison = new PairwiseComparison();
 			comparison.setId(UUID.randomUUID().toString());
-			comparison.setFirstDataset(new File(args[0]));
-			comparison.setSecondDataset(new File(args[1]));
+			comparison.setFirstDataset(new FileInputStream(args[0]));
+			comparison.setSecondDataset(new FileInputStream(args[1]));
 			comparison.setAdapterId(args[2]);
 			comparison.setExtractorId(args[3]);
 			comparison.setMeasureId(args[4]);

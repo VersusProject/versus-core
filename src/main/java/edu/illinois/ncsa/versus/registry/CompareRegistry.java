@@ -3,6 +3,7 @@
  */
 package edu.illinois.ncsa.versus.registry;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -120,6 +121,15 @@ public class CompareRegistry {
         return ad;
     }
 
+    public Collection<String> getAvailableAdaptersId(Extractor extractor) {
+        Collection<Adapter> availableAdapters = getAvailableAdapters(extractor);
+        HashSet<String> result = new HashSet<String>(availableAdapters.size());
+        for (Adapter ad : availableAdapters) {
+            result.add(ad.getClass().getName());
+        }
+        return result;
+    }
+
     public Extractor getExtractor(String extractorId) {
         return extractors.get(extractorId);
     }
@@ -162,6 +172,15 @@ public class CompareRegistry {
         return ex;
     }
 
+    public Collection<String> getAvailableExtractorsId(Adapter adapter) {
+        Collection<Extractor> availableExtractors = getAvailableExtractors(adapter);
+        Collection<String> result = new HashSet<String>(availableExtractors.size());
+        for (Extractor ex : availableExtractors) {
+            result.add(ex.getClass().getName());
+        }
+        return result;
+    }
+
     public Measure getMeasure(String measureId) {
         return measures.get(measureId);
     }
@@ -181,10 +200,11 @@ public class CompareRegistry {
 
     /**
      * Determines if the registry support the comparison
+     *
      * @param adapterId
      * @param extractorId
      * @param measureId
-     * @return 
+     * @return
      */
     public boolean supportComparison(String adapterId, String extractorId,
             String measureId) {

@@ -1,4 +1,4 @@
-/**
+ /**
  * 
  */
 package edu.illinois.ncsa.versus.adapter.impl;
@@ -11,6 +11,7 @@ import java.util.List;
 
 import edu.illinois.ncsa.versus.adapter.FileLoader;
 import edu.illinois.ncsa.versus.adapter.HasBytes;
+import edu.illinois.ncsa.versus.adapter.StreamLoader;
 import edu.illinois.ncsa.versus.utility.HasCategory;
 import edu.illinois.ncsa.versus.utility.HasHelp;
 import edu.illinois.ncsa.versus.utility.HelpProvider;
@@ -19,7 +20,7 @@ import edu.illinois.ncsa.versus.utility.HelpProvider;
  * @author lmarini
  * 
  */
-public class DummyAdapter implements HasBytes, FileLoader, HasCategory, HasHelp {
+public class DummyAdapter implements HasBytes, FileLoader, StreamLoader, HasCategory, HasHelp {
 
 	private static final long SLEEP = 5000;
 
@@ -43,6 +44,14 @@ public class DummyAdapter implements HasBytes, FileLoader, HasCategory, HasHelp 
 		} catch (InterruptedException e) {
 		}
 	}
+    
+    @Override
+    public void load(InputStream stream) {
+		try {
+			Thread.sleep(SLEEP);
+		} catch (InterruptedException e) {
+		}
+    }
 
 	@Override
 	public byte[] getBytes() throws IOException {
@@ -63,5 +72,4 @@ public class DummyAdapter implements HasBytes, FileLoader, HasCategory, HasHelp 
     public String getHelpSHA1() {
         return HelpProvider.getHelpSHA1(DummyAdapter.class);
     }
-
 }

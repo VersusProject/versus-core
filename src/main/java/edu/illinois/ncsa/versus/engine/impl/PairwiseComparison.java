@@ -4,6 +4,7 @@
 package edu.illinois.ncsa.versus.engine.impl;
 
 import java.io.File;
+import java.io.InputStream;
 import java.io.Serializable;
 
 /**
@@ -18,9 +19,9 @@ public class PairwiseComparison implements Serializable {
 
 	private String id;
 
-	private File firstDataset;
+	private InputStream firstDataset;
 
-	private File secondDataset;
+	private InputStream secondDataset;
 
 	private String adapterId;
 
@@ -36,7 +37,7 @@ public class PairwiseComparison implements Serializable {
 	/**
 	 * @return the firstDataset
 	 */
-	public File getFirstDataset() {
+	public InputStream getFirstDataset() {
 		return firstDataset;
 	}
 
@@ -44,14 +45,14 @@ public class PairwiseComparison implements Serializable {
 	 * @param firstDataset
 	 *            the firstDataset to set
 	 */
-	public void setFirstDataset(File firstDataset) {
+	public void setFirstDataset(InputStream firstDataset) {
 		this.firstDataset = firstDataset;
 	}
 
 	/**
 	 * @return the secondDataset
 	 */
-	public File getSecondDataset() {
+	public InputStream getSecondDataset() {
 		return secondDataset;
 	}
 
@@ -59,7 +60,7 @@ public class PairwiseComparison implements Serializable {
 	 * @param secondDataset
 	 *            the secondDataset to set
 	 */
-	public void setSecondDataset(File secondDataset) {
+	public void setSecondDataset(InputStream secondDataset) {
 		this.secondDataset = secondDataset;
 	}
 

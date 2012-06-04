@@ -1,12 +1,19 @@
 package edu.illinois.ncsa.versus.adapter.impl;
 
-import edu.illinois.ncsa.versus.adapter.FileLoader;
-import edu.illinois.ncsa.versus.adapter.HasBytes;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import edu.illinois.ncsa.versus.adapter.FileLoader;
+import edu.illinois.ncsa.versus.adapter.HasBytes;
+import edu.illinois.ncsa.versus.adapter.StreamLoader;
 
 /**
  * Get bytes from file.
@@ -14,10 +21,11 @@ import org.apache.commons.logging.LogFactory;
  * @author Luigi Marini <lmarini@ncsa.illinois.edu>
  * 
  */
-public class BytesAdapter implements HasBytes, FileLoader {
+public class BytesAdapter implements HasBytes, FileLoader, StreamLoader {
 
 	private File file;
-	private static Log log = LogFactory.getLog(BytesAdapter.class);
+    private InputStream stream;
+	private static final Log log = LogFactory.getLog(BytesAdapter.class);
 
 	@Override
 	public String getName() {
@@ -36,23 +44,24 @@ public class BytesAdapter implements HasBytes, FileLoader {
 		this.file = file;
 	}
 
+    @Override
+    public void load(InputStream stream) {
+        this.stream = stream;
+    }
+    
 	@Override
 	public byte[] getBytes() throws IOException {
-		try {
+        if(stream == null) {
+            if(file == null) {
+                throw new RuntimeException("No adapter input specified.");
+            }
 			log.debug("Loading file " + file.getAbsolutePath());
-			InputStream is = new FileInputStream(file);
-			byte[] bytes = new byte[(int) file.length()];
-			int offset = 0;
-			int numRead = 0;
-			while (offset < bytes.length
-					&& (numRead = is.read(bytes, offset, bytes.length - offset)) >= 0) {
-				offset += numRead;
-			}
-			return bytes;
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return new byte[0];
+            stream = new FileInputStream(file);
+        }
+        try {
+            return IOUtils.toByteArray(stream);
+        } finally {
+            stream.close();
+        }
 	}
 }

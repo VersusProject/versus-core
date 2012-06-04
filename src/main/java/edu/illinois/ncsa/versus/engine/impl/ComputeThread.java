@@ -4,6 +4,7 @@
 package edu.illinois.ncsa.versus.engine.impl;
 
 import java.io.File;
+import java.io.InputStream;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -11,6 +12,7 @@ import org.apache.commons.logging.LogFactory;
 import edu.illinois.ncsa.versus.UnsupportedTypeException;
 import edu.illinois.ncsa.versus.adapter.Adapter;
 import edu.illinois.ncsa.versus.adapter.FileLoader;
+import edu.illinois.ncsa.versus.adapter.StreamLoader;
 import edu.illinois.ncsa.versus.descriptor.Descriptor;
 import edu.illinois.ncsa.versus.engine.impl.Job.ComparisonStatus;
 import edu.illinois.ncsa.versus.extract.Extractor;
@@ -28,9 +30,9 @@ public class ComputeThread extends Thread {
 	/** Commons logging **/
 	private static Log log = LogFactory.getLog(ComputeThread.class);
 
-	private final File file1;
+	private final InputStream file1;
 
-	private final File file2;
+	private final InputStream file2;
 
 	private Adapter adapter1;
 
@@ -124,23 +126,21 @@ public class ComputeThread extends Thread {
 	 * @return comparison
 	 * @throws Exception
 	 */
-	private Similarity compare(File file1, File file2) throws Exception {
+	private Similarity compare(InputStream stream1, InputStream stream2) throws Exception {
 
-		if ((adapter1 instanceof FileLoader)
-				&& (adapter2 instanceof FileLoader)) {
-			FileLoader fileLoaderAdapter = (FileLoader) adapter1;
-			fileLoaderAdapter.load(file1);
-			Descriptor feature1 = extractor.extract(fileLoaderAdapter);
-			FileLoader fileLoaderAdapter2 = (FileLoader) adapter2;
-			fileLoaderAdapter2.load(file2);
-			Descriptor feature2 = extractor.extract(fileLoaderAdapter2);
+		if ((adapter1 instanceof StreamLoader)
+				&& (adapter2 instanceof StreamLoader)) {
+			StreamLoader streamLoaderAdapter = (StreamLoader) adapter1;
+			streamLoaderAdapter.load(stream1);
+			Descriptor feature1 = extractor.extract(streamLoaderAdapter);
+			StreamLoader streamLoaderAdapter2 = (StreamLoader) adapter2;
+			streamLoaderAdapter2.load(stream2);
+			Descriptor feature2 = extractor.extract(streamLoaderAdapter2);
 			Similarity value = measure.compare(feature1, feature2);
-			log.debug("Compared " + file1.getName() + " with "
-					+ file2.getName() + " = " + value.getValue());
 			return value;
 		} else {
 			handler.onAborted("Unsupported types");
-			throw new UnsupportedTypeException();
+			throw new UnsupportedTypeException("Unsupported adapters.");
 		}
 	}
 }
