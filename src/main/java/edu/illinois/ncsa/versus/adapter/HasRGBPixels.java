@@ -31,4 +31,11 @@ public interface HasRGBPixels extends Adapter {
 	 * @return value of the band for the pixel
 	 */
 	double getRGBPixel(int row, int column, int band);
+    
+    /**
+     * Get the number of bits per pixel.
+     * 
+     * @return the number of bits per pixel.
+     */
+    int getBitsPerPixel();
 }

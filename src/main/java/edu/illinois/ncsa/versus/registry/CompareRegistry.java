@@ -104,17 +104,14 @@ public class CompareRegistry {
      */
     public Collection<Adapter> getAvailableAdapters(Extractor extractor) {
         Collection<Adapter> ad = new HashSet<Adapter>();
-        Set<Class<? extends Adapter>> supportedAdaptersTypes = extractor.supportedAdapters();
+        Set<Class<? extends Adapter>> supportedAdaptersTypes = 
+                extractor.supportedAdapters();
         for (Adapter adapter : adapters.values()) {
-            if (supportedAdaptersTypes.contains(adapter.getClass())) {
-                ad.add(adapter);
-            } else {
-                Class[] interfaces = adapter.getClass().getInterfaces();
-                for (Class inter : interfaces) {
-                    if (supportedAdaptersTypes.contains(inter)) {
-                        ad.add(adapter);
-                        break;
-                    }
+            Class<? extends Adapter> adapterClass = adapter.getClass();
+            for (Class<? extends Adapter> supportedAdapter : supportedAdaptersTypes) {
+                if (supportedAdapter.isAssignableFrom(adapterClass)) {
+                    ad.add(adapter);
+                    break;
                 }
             }
         }
@@ -154,18 +151,15 @@ public class CompareRegistry {
      * @return
      */
     public Collection<Extractor> getAvailableExtractors(Adapter adapter) {
-        Class[] interfaces = adapter.getClass().getInterfaces();
+        Class<? extends Adapter> adapterClass = adapter.getClass();
         Collection<Extractor> ex = new HashSet<Extractor>();
         for (Extractor extractor : extractors.values()) {
-            Set<Class<? extends Adapter>> supportedAdaptersTypes = extractor.supportedAdapters();
-            if (supportedAdaptersTypes.contains(adapter.getClass())) {
-                ex.add(extractor);
-            } else {
-                for (Class inter : interfaces) {
-                    if (supportedAdaptersTypes.contains(inter)) {
-                        ex.add(extractor);
-                        break;
-                    }
+            Set<Class<? extends Adapter>> supportedAdaptersTypes =
+                    extractor.supportedAdapters();
+            for (Class<? extends Adapter> supportedAdapter : supportedAdaptersTypes) {
+                if (supportedAdapter.isAssignableFrom(adapterClass)) {
+                    ex.add(extractor);
+                    break;
                 }
             }
         }
