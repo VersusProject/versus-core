@@ -11,7 +11,10 @@
  */
 package edu.illinois.ncsa.versus.adapter;
 
+import java.io.IOException;
 import java.io.InputStream;
+
+import edu.illinois.ncsa.versus.VersusException;
 
 /**
  *
@@ -23,6 +26,6 @@ public interface StreamLoader extends Adapter {
      * Load a stream in the data structure specific to the adapter
      * @param stream 
      */
-    public void load(InputStream stream);
+    public void load(InputStream stream) throws IOException, VersusException;
     
 }

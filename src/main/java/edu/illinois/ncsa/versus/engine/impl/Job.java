@@ -22,13 +22,13 @@ import java.util.Set;
 @SuppressWarnings("serial")
 public class Job implements Serializable {
 
-	private String id;
+	private volatile String id;
 
 	private Set<PairwiseComparison> comparisons = new HashSet<PairwiseComparison>();
 
-	private Date started;
+	private volatile Date started;
 
-	private Date ended;
+	private volatile Date ended;
 
 	public enum ComparisonStatus {
 		STARTED, DONE, FAILED, ABORTED
@@ -40,16 +40,16 @@ public class Job implements Serializable {
 		comparisonStatus = new HashMap<String, ComparisonStatus>();
 	}
 
-	public void setComparison(Set<PairwiseComparison> comparison) {
+	public synchronized void setComparisons(Set<PairwiseComparison> comparison) {
 		this.comparisons = comparison;
 	}
 
-	public void addComparison(PairwiseComparison comparison) {
+	public synchronized void addComparison(PairwiseComparison comparison) {
 		comparisons.add(comparison);
 	}
 
-	public Set<PairwiseComparison> getComparisons() {
-		return comparisons;
+	public synchronized Set<PairwiseComparison> getComparisons() {
+		return new HashSet<PairwiseComparison>(comparisons);
 	}
 
 	public void setStarted(Date started) {
@@ -68,20 +68,13 @@ public class Job implements Serializable {
 		return ended;
 	}
 
-	public Map<String, ComparisonStatus> getComparisonStatus() {
-		return comparisonStatus;
-	}
-
 	public synchronized void setStatus(String comparisonId,
 			ComparisonStatus status) {
-		if (getComparisonStatus().containsKey(comparisonId)) {
-			getComparisonStatus().remove(comparisonId);
-		}
-		getComparisonStatus().put(comparisonId, status);
+		comparisonStatus.put(comparisonId, status);
 	}
 
-	public ComparisonStatus getStatus(PairwiseComparison comparison) {
-		return getComparisonStatus().get(comparison);
+	public synchronized ComparisonStatus getStatus(PairwiseComparison comparison) {
+		return comparisonStatus.get(comparison.getId());
 	}
 
 	public synchronized void updateSimilarityValue(String comparisonId,

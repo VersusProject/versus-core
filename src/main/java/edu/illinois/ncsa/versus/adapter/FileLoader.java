@@ -6,6 +6,8 @@ package edu.illinois.ncsa.versus.adapter;
 import java.io.File;
 import java.io.IOException;
 
+import edu.illinois.ncsa.versus.VersusException;
+
 /**
  * Adapter is capable of loading a file.
  * 
@@ -21,5 +23,5 @@ public interface FileLoader extends Adapter {
 	 *            file to load
 	 * @throws IOException
 	 */
-	public void load(File file) throws IOException;
+	public void load(File file) throws IOException, VersusException;
 }
