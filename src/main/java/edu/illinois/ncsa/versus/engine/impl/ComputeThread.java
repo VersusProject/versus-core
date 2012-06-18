@@ -74,7 +74,13 @@ public class ComputeThread extends Thread {
             extractor = (Extractor) Class.forName(extractionID).newInstance();
             log.debug("Selected measure is " + measureID);
             measure = (Measure) Class.forName(measureID).newInstance();
-        } catch (ReflectiveOperationException e) {
+        } catch (ClassNotFoundException e) {
+            log.error("Error setting up compute thread", e);
+            throw new UnsupportedTypeException("Instanciation error.", e);
+        } catch (InstantiationException e) {
+            log.error("Error setting up compute thread", e);
+            throw new UnsupportedTypeException("Instanciation error.", e);
+        } catch (IllegalAccessException e) {
             log.error("Error setting up compute thread", e);
             throw new UnsupportedTypeException("Instanciation error.", e);
         }
