@@ -39,28 +39,27 @@ public class RandomSampler implements Sampler {
     }
 
     @Override
-    public List<Individual> sample(List<Individual> collection, int sampleSize) 
+    public List<Individual> sample(List<Individual> collection, int sampleSize)
             throws SamplingException {
-        if(collection == null || collection.isEmpty()) {
+        if (collection == null || collection.isEmpty()) {
             throw new SamplingException("Specified collection to sample is empty.");
         }
-        
-        if(sampleSize <= 0) {
+
+        if (sampleSize <= 0) {
             throw new SamplingException("Specified sample size is less or equal to 0.");
         }
-        
+
         LinkedList<Individual> backup = new LinkedList<Individual>(collection);
-        if(collection.size() <= sampleSize) {
+        if (collection.size() <= sampleSize) {
             return backup;
         }
-        
+
         ArrayList<Individual> result = new ArrayList<Individual>(sampleSize);
-        for(int i = 0; i < sampleSize; i++) {
+        for (int i = 0; i < sampleSize; i++) {
             int index = (int) (Math.random() * (collection.size() - i - 1) + 0.5);
             result.add(backup.remove(index));
         }
-        
+
         return result;
     }
-      
 }

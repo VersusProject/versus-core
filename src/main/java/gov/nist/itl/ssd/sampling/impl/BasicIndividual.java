@@ -24,6 +24,11 @@ public class BasicIndividual implements Individual {
 
     private final String id;
 
+    // To be called only by reflection by the SamplingRegistry
+    public BasicIndividual() {
+        this(null);
+    }
+
     public BasicIndividual(String id) {
         this.id = id;
     }
