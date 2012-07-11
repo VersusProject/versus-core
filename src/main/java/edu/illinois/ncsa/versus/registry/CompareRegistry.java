@@ -180,7 +180,7 @@ public class CompareRegistry {
 	}
 
 	/**
-	 * Get all adapters ids known to the system.
+	 * Get ids of all known adapters.
 	 * 
 	 * @return collection of adapters ids
 	 */
@@ -190,5 +190,31 @@ public class CompareRegistry {
 			adaptersIds.add(adapter.getClass().getName());
 		}
 		return adaptersIds;
+	}
+
+	/**
+	 * Get ids of all known extractors.
+	 * 
+	 * @return collection of extractors ids
+	 */
+	public Collection<String> getAvailableExtractorsIds() {
+		Collection<String> extractorIds = new HashSet<String>();
+		for (Extractor adapter : extractors) {
+			extractorIds.add(adapter.getClass().getName());
+		}
+		return extractorIds;
+	}
+
+	/**
+	 * Get ids of all known measures.
+	 * 
+	 * @return collection of measures ids
+	 */
+	public Collection<String> getAvailableMeasuresIds() {
+		Collection<String> measuresIds = new HashSet<String>();
+		for (Measure measure : measures) {
+			measuresIds.add(measure.getClass().getName());
+		}
+		return measuresIds;
 	}
 }
