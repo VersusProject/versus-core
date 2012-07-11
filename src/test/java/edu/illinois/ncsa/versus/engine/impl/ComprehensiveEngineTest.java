@@ -8,12 +8,13 @@ import junit.framework.TestCase;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.junit.Test;
 
 public class ComprehensiveEngineTest extends TestCase {
 
 	private static Log log = LogFactory.getLog(ComprehensiveEngineTest.class);
 
-	@org.junit.Test
+	@Test
 	public void testCompute() {
 		ComprehensiveEngine engine = new ComprehensiveEngine();
 		List<PairwiseComparison> comparisons = new ArrayList<PairwiseComparison>();
