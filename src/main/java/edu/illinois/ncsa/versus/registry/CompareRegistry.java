@@ -37,11 +37,14 @@
  */
 package edu.illinois.ncsa.versus.registry;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.ServiceLoader;
 
 import sun.misc.Service;
 import edu.illinois.ncsa.versus.adapter.Adapter;
@@ -78,10 +81,111 @@ public class CompareRegistry {
 	 */
 	private final Collection<Adapter> adapters;
 
+	/**
+	 * Collection of known extractors.
+	 */
 	private final Collection<Extractor> extractors;
+
+	private static ServiceLoader<Adapter> adapterLoader = ServiceLoader
+			.load(Adapter.class);
+
+	private static ServiceLoader<Extractor> extractorLoader = ServiceLoader
+			.load(Extractor.class);
+
+	private static ServiceLoader<Measure> measureLoader = ServiceLoader
+			.load(Measure.class);
+
+	/**
+	 * All adapters available on the classpath.
+	 * 
+	 * @param adapterId
+	 * @return
+	 */
+	public static List<Adapter> getAdapters() {
+		List<Adapter> adapters = new ArrayList<Adapter>();
+		Iterator<Adapter> iterator = adapterLoader.iterator();
+		while (iterator.hasNext()) {
+			adapters.add(iterator.next());
+		}
+		return adapters;
+	}
+
+	/**
+	 * Retrieve an instance of a particular adapter.
+	 * 
+	 * @param adapterId
+	 * @return null if instance not found
+	 */
+	public static Adapter getAdapter(String adapterId) {
+		for (Adapter adapter : adapterLoader) {
+			if (adapter.getClass().getName().equals(adapterId))
+				return adapter;
+		}
+		return null;
+	}
+
+	/**
+	 * All extractor available on the classpath.
+	 * 
+	 * @param adapterId
+	 * @return
+	 */
+	public static List<Extractor> getExtractor() {
+		List<Extractor> extractors = new ArrayList<Extractor>();
+		Iterator<Extractor> iterator = extractorLoader.iterator();
+		while (iterator.hasNext()) {
+			extractors.add(iterator.next());
+		}
+		return extractors;
+	}
+
+	/**
+	 * Retrieve an instance of a particular extractor.
+	 * 
+	 * @param extractorId
+	 * @return null if instance not found
+	 */
+	public static Extractor getExtractor(String adapterId) {
+		for (Extractor extractor : extractorLoader) {
+			if (extractor.getClass().getName().equals(adapterId))
+				return extractor;
+		}
+		return null;
+	}
+
+	/**
+	 * All measures available on the classpath.
+	 * 
+	 * @param measureId
+	 * @return
+	 */
+	public static List<Measure> getMeasures() {
+		List<Measure> measures = new ArrayList<Measure>();
+		Iterator<Measure> iterator = measureLoader.iterator();
+		while (iterator.hasNext()) {
+			measures.add(iterator.next());
+		}
+		return measures;
+	}
+
+	/**
+	 * Retrieve an instance of a particular measure.
+	 * 
+	 * @param measureId
+	 * @return null if instance not found
+	 */
+	public static Measure getMeasure(String measureId) {
+		for (Measure measure : measureLoader) {
+			if (measure.getClass().getName().equals(measureId))
+				return measure;
+		}
+		return null;
+	}
 
 	/**
 	 * Create an instance and load known extractors.
+	 * 
+	 * @Deprecated Use static methods instead
 	 */
 	public CompareRegistry() {
 		featureToExtractorsMap = new HashMap<String, Collection<Extractor>>();
@@ -96,6 +200,8 @@ public class CompareRegistry {
 	 * Populate registry.
 	 * 
 	 * TODO switch to dynamic loading
+	 * 
+	 * @Deprecated Use static methods instead
 	 */
 	private void populateRegistry() {
 		Iterator<Adapter> iter = Service.providers(Adapter.class);
@@ -123,6 +229,8 @@ public class CompareRegistry {
 	 * Get list of keys for features available on the classpath.
 	 * 
 	 * @return keys of available features
+	 * 
+	 * @Deprecated Use static methods instead
 	 */
 	public Collection<String> getAvailableFeatures() {
 		return featureToExtractorsMap.keySet();
@@ -132,6 +240,8 @@ public class CompareRegistry {
 	 * Get known measures.
 	 * 
 	 * @return known measures
+	 * 
+	 * @Deprecated Use static methods instead
 	 */
 	public Collection<Measure> getAvailableMeasures() {
 		return measures;
@@ -143,6 +253,8 @@ public class CompareRegistry {
 	 * @param key
 	 *            of feature
 	 * @return an instance of a feature
+	 * 
+	 * @Deprecated Use static methods instead
 	 */
 	public Descriptor getFeature(String key) {
 		return null;
@@ -154,7 +266,8 @@ public class CompareRegistry {
 	 * @param string
 	 *            a unique string identifying the feature type
 	 * @return a collection of extractors
-	 * @deprecated
+	 * 
+	 * @Deprecated Use static methods instead
 	 */
 	@Deprecated
 	public Collection<Extractor> getAvailableExtractors(String featureType) {
@@ -165,6 +278,8 @@ public class CompareRegistry {
 	 * Get all available extractors.
 	 * 
 	 * @return a collection of extractors
+	 * 
+	 * @Deprecated Use static methods instead
 	 */
 	public Collection<Extractor> getAvailableExtractors() {
 		return extractors;
@@ -174,6 +289,8 @@ public class CompareRegistry {
 	 * Get all adapters known to the system.
 	 * 
 	 * @return collection of adapters
+	 * 
+	 * @Deprecated Use static methods instead
 	 */
 	public Collection<Adapter> getAvailableAdapters() {
 		return adapters;
@@ -183,6 +300,8 @@ public class CompareRegistry {
 	 * Get ids of all known adapters.
 	 * 
 	 * @return collection of adapters ids
+	 * 
+	 * @Deprecated Use static methods instead
 	 */
 	public Collection<String> getAvailableAdaptersIds() {
 		Collection<String> adaptersIds = new HashSet<String>();
@@ -196,6 +315,8 @@ public class CompareRegistry {
 	 * Get ids of all known extractors.
 	 * 
 	 * @return collection of extractors ids
+	 * 
+	 * @Deprecated Use static methods instead
 	 */
 	public Collection<String> getAvailableExtractorsIds() {
 		Collection<String> extractorIds = new HashSet<String>();
@@ -209,6 +330,8 @@ public class CompareRegistry {
 	 * Get ids of all known measures.
 	 * 
 	 * @return collection of measures ids
+	 * 
+	 * @Deprecated Use static methods instead
 	 */
 	public Collection<String> getAvailableMeasuresIds() {
 		Collection<String> measuresIds = new HashSet<String>();
