@@ -199,8 +199,8 @@ public class CompareRegistry {
 	 */
 	public Collection<String> getAvailableExtractorsIds() {
 		Collection<String> extractorIds = new HashSet<String>();
-		for (Extractor adapter : extractors) {
-			extractorIds.add(adapter.getClass().getName());
+		for (Extractor extractor : extractors) {
+			extractorIds.add(extractor.getClass().getName());
 		}
 		return extractorIds;
 	}
