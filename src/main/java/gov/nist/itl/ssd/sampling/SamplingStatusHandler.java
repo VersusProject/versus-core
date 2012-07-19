@@ -11,35 +11,18 @@
  */
 package gov.nist.itl.ssd.sampling;
 
-import java.util.List;
-
 /**
  *
  * @author antoinev
  */
-public interface Individual {
-
-    /**
-     * Id identifying this individual
-     * @return 
-     */
-    String getId();
+public interface SamplingStatusHandler {
     
-    /**
-     * Set the id identifying this individual
-     * @param id 
-     */
-    void setId(String id);
+    void onStarted();
     
-    /**
-     * Name of the individual type
-     * @return 
-     */
-    String getName();
-
-    /**
-     * List of supported MIME types.
-     * @return 
-     */
-    List<String> getSupportedMediaTypes();
+    void onDone();
+    
+    void onFailed();
+    
+    void onAborted();
+    
 }

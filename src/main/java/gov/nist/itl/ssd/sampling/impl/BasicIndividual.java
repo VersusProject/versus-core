@@ -22,9 +22,8 @@ import gov.nist.itl.ssd.sampling.Individual;
  */
 public class BasicIndividual implements Individual {
 
-    private final String id;
+    private String id;
 
-    // To be called only by reflection by the SamplingRegistry
     public BasicIndividual() {
         this(null);
     }
@@ -38,6 +37,11 @@ public class BasicIndividual implements Individual {
         return id;
     }
 
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
+    
     @Override
     public String getName() {
         return "Basic individual";

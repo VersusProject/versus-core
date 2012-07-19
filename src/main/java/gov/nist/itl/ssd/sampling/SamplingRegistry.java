@@ -69,15 +69,15 @@ public class SamplingRegistry {
     public Collection<Sampler> getAvailableSamplers() {
         return samplers.values();
     }
-    
+
     public Collection<Individual> getAvailableIndividuals(Sampler sampler) {
         Collection<Individual> ind = new HashSet<Individual>();
-        List<Class<? extends Individual>> supportedIndiviudalsTypes = 
+        List<Class<? extends Individual>> supportedIndiviudalsTypes =
                 sampler.getSupportedIndividuals();
-        for(Individual individual : individuals.values()) {
+        for (Individual individual : individuals.values()) {
             Class<? extends Individual> individualClass = individual.getClass();
-            for(Class<? extends Individual> supportedIndividual : supportedIndiviudalsTypes) {
-                if(supportedIndividual.isAssignableFrom(individualClass)) {
+            for (Class<? extends Individual> supportedIndividual : supportedIndiviudalsTypes) {
+                if (supportedIndividual.isAssignableFrom(individualClass)) {
                     ind.add(individual);
                     break;
                 }
@@ -85,13 +85,18 @@ public class SamplingRegistry {
         }
         return ind;
     }
-    
+
     public Collection<String> getAvailableIndividualsIds(Sampler sampler) {
         Collection<Individual> availableIndividuals = getAvailableIndividuals(sampler);
         HashSet<String> result = new HashSet<String>(availableIndividuals.size());
-        for(Individual ind : availableIndividuals) {
+        for (Individual ind : availableIndividuals) {
             result.add(ind.getClass().getName());
         }
         return result;
+    }
+
+    public boolean supportSampling(String individual, String sampler) {
+        return individuals.containsKey(individual)
+                && samplers.containsKey(sampler);
     }
 }
