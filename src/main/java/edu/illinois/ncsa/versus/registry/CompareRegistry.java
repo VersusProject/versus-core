@@ -1,37 +1,35 @@
-/*******************************************************************************
+/**
+ * *****************************************************************************
  * Copyright (c) 2010 University of Illinois. All rights reserved.
- * 
- * Developed by: 
- * National Center for Supercomputing Applications (NCSA)
- * University of Illinois
- * http://www.ncsa.illinois.edu/
- * 
- * Permission is hereby granted, free of charge, to any person obtaining 
- * a copy of this software and associated documentation files (the 
- * "Software"), to deal with the Software without restriction, including 
- * without limitation the rights to use, copy, modify, merge, publish, 
- * distribute, sublicense, and/or sell copies of the Software, and to permit 
- * persons to whom the Software is furnished to do so, subject to the 
- * following conditions:
- * 
- * - Redistributions of source code must retain the above copyright notice, 
- *   this list of conditions and the following disclaimers.
- * - Redistributions in binary form must reproduce the above copyright notice, 
- *   this list of conditions and the following disclaimers in the documentation 
- *   and/or other materials provided with the distribution.
- * - Neither the names of National Center for Supercomputing Applications,
- *   University of Illinois, nor the names of its contributors may 
- *   be used to endorse or promote products derived from this Software 
- *   without specific prior written permission.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
- * IN NO EVENT SHALL THE CONTRIBUTORS OR COPYRIGHT HOLDERS BE LIABLE FOR 
- * ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
- * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
- * SOFTWARE OR THE USE OR OTHER DEALINGS WITH THE SOFTWARE.
- ******************************************************************************/
+ *
+ * Developed by: National Center for Supercomputing Applications (NCSA)
+ * University of Illinois http://www.ncsa.illinois.edu/
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * with the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * - Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimers. - Redistributions in binary
+ * form must reproduce the above copyright notice, this list of conditions and
+ * the following disclaimers in the documentation and/or other materials
+ * provided with the distribution. - Neither the names of National Center for
+ * Supercomputing Applications, University of Illinois, nor the names of its
+ * contributors may be used to endorse or promote products derived from this
+ * Software without specific prior written permission.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * CONTRIBUTORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS WITH
+ * THE SOFTWARE.
+ * ****************************************************************************
+ */
 /**
  *
  */
@@ -42,6 +40,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.Set;
@@ -65,8 +64,106 @@ public class CompareRegistry {
 
     private final Map<String, Measure> measures;
 
+    private static ServiceLoader<Adapter> adapterLoader = ServiceLoader.load(Adapter.class);
+
+    private static ServiceLoader<Extractor> extractorLoader = ServiceLoader.load(Extractor.class);
+
+    private static ServiceLoader<Measure> measureLoader = ServiceLoader.load(Measure.class);
+
+    /**
+     * All adapters available on the classpath.
+     *
+     * @param adapterId
+     * @return
+     */
+    public static List<Adapter> getAdapters() {
+        List<Adapter> adapters = new ArrayList<Adapter>();
+        Iterator<Adapter> iterator = adapterLoader.iterator();
+        while (iterator.hasNext()) {
+            adapters.add(iterator.next());
+        }
+        return adapters;
+    }
+
+    /**
+     * Retrieve an instance of a particular adapter.
+     *
+     * @param adapterId
+     * @return null if instance not found
+     */
+    public static Adapter getAdapter(String adapterId) {
+        for (Adapter adapter : adapterLoader) {
+            if (adapter.getClass().getName().equals(adapterId)) {
+                return adapter;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * All extractor available on the classpath.
+     *
+     * @param adapterId
+     * @return
+     */
+    public static List<Extractor> getExtractor() {
+        List<Extractor> extractors = new ArrayList<Extractor>();
+        Iterator<Extractor> iterator = extractorLoader.iterator();
+        while (iterator.hasNext()) {
+            extractors.add(iterator.next());
+        }
+        return extractors;
+    }
+
+    /**
+     * Retrieve an instance of a particular extractor.
+     *
+     * @param extractorId
+     * @return null if instance not found
+     */
+    public static Extractor getExtractor(String adapterId) {
+        for (Extractor extractor : extractorLoader) {
+            if (extractor.getClass().getName().equals(adapterId)) {
+                return extractor;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * All measures available on the classpath.
+     *
+     * @param measureId
+     * @return
+     */
+    public static List<Measure> getMeasures() {
+        List<Measure> measures = new ArrayList<Measure>();
+        Iterator<Measure> iterator = measureLoader.iterator();
+        while (iterator.hasNext()) {
+            measures.add(iterator.next());
+        }
+        return measures;
+    }
+
+    /**
+     * Retrieve an instance of a particular measure.
+     *
+     * @param measureId
+     * @return null if instance not found
+     */
+    public static Measure getMeasure(String measureId) {
+        for (Measure measure : measureLoader) {
+            if (measure.getClass().getName().equals(measureId)) {
+                return measure;
+            }
+        }
+        return null;
+    }
+
     /**
      * Create an instance and load known extractors.
+     *
+     * @Deprecated Use static methods instead
      */
     public CompareRegistry() {
         adapters = new HashMap<String, Adapter>();
@@ -77,6 +174,8 @@ public class CompareRegistry {
 
     /**
      * Populate registry.
+     *
+     * @Deprecated Use static methods instead
      */
     private void populateRegistry() {
         Iterator<Adapter> iter = ServiceLoader.load(Adapter.class).iterator();
@@ -100,14 +199,12 @@ public class CompareRegistry {
         }
     }
 
-    public Adapter getAdapter(String adapterId) {
-        return adapters.get(adapterId);
-    }
-
     /**
      * Get all adapters ids known to the system.
      *
      * @return collection of adapters ids
+     *
+     * @Deprecated Use static methods instead
      */
     public Collection<String> getAvailableAdaptersIds() {
         return adapters.keySet();
@@ -117,6 +214,8 @@ public class CompareRegistry {
      * Get all adapters known to the system.
      *
      * @return collection of adapters
+     *
+     * @Deprecated Use static methods instead
      */
     public Collection<Adapter> getAvailableAdapters() {
         return adapters.values();
@@ -136,10 +235,12 @@ public class CompareRegistry {
      *
      * @param extractor
      * @return
+     *
+     * @Deprecated Use static methods instead
      */
     public Collection<Adapter> getAvailableAdapters(Extractor extractor) {
         Collection<Adapter> ad = new HashSet<Adapter>();
-        Set<Class<? extends Adapter>> supportedAdaptersTypes = 
+        Set<Class<? extends Adapter>> supportedAdaptersTypes =
                 extractor.supportedAdapters();
         for (Adapter adapter : adapters.values()) {
             Class<? extends Adapter> adapterClass = adapter.getClass();
@@ -162,10 +263,6 @@ public class CompareRegistry {
         return result;
     }
 
-    public Extractor getExtractor(String extractorId) {
-        return extractors.get(extractorId);
-    }
-
     public Collection<String> getAvailableExtractorsId() {
         return extractors.keySet();
     }
@@ -174,6 +271,8 @@ public class CompareRegistry {
      * Get all available extractors.
      *
      * @return a collection of extractors
+     *
+     * @Deprecated Use static methods instead
      */
     public Collection<Extractor> getAvailableExtractors() {
         return extractors.values();
@@ -184,6 +283,7 @@ public class CompareRegistry {
      *
      * @param adapter
      * @return
+     * @Deprecated Use static methods instead
      */
     public Collection<Extractor> getAvailableExtractors(Adapter adapter) {
         Class<? extends Adapter> adapterClass = adapter.getClass();
@@ -209,20 +309,16 @@ public class CompareRegistry {
         }
         return result;
     }
-    
+
     public Collection<Extractor> getAvailableExtractors(Measure measure) {
         Set<Class<? extends Descriptor>> supportedFeaturesTypes = measure.supportedFeaturesTypes();
         Collection<Extractor> ex = new HashSet<Extractor>();
-        for(Extractor extractor : extractors.values()) {
-            if(supportedFeaturesTypes.contains(extractor.getFeatureType())) {
+        for (Extractor extractor : extractors.values()) {
+            if (supportedFeaturesTypes.contains(extractor.getFeatureType())) {
                 ex.add(extractor);
             }
         }
         return ex;
-    }
-
-    public Measure getMeasure(String measureId) {
-        return measures.get(measureId);
     }
 
     public Collection<String> getAvailableMeasuresId() {
@@ -233,6 +329,8 @@ public class CompareRegistry {
      * Get known measures.
      *
      * @return known measures
+     *
+     * @Deprecated Use static methods instead
      */
     public Collection<Measure> getAvailableMeasures() {
         return measures.values();

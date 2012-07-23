@@ -3,6 +3,8 @@
  */
 package edu.illinois.ncsa.versus.search;
 
+import java.util.List;
+
 import edu.illinois.ncsa.versus.descriptor.Descriptor;
 import edu.illinois.ncsa.versus.measure.Measure;
 
@@ -24,17 +26,34 @@ public interface Indexer {
 	void addDescriptor(Descriptor document);
 
 	/**
-	 * Build index.
+	 * Build index. This allows clients to add documents in batches and rebuild
+	 * the index when it's most appropriate.
 	 */
 	void commit();
 
 	/**
-	 * Query index using a query and a proximity measure.
+	 * Query index using a query represented by a descriptor.
 	 * 
 	 * @param query
 	 *            Descriptor representing the query.
 	 * @param measure
 	 *            Measure used to find the distance between query and documents.
 	 */
-	void query(Descriptor query, Measure measure);
+	List<SearchResult> query(Descriptor query);
+
+	/**
+	 * Query index using a query represented by a descriptor.
+	 * 
+	 * @param query
+	 *            Descriptor representing the query.
+	 * @param measure
+	 *            Measure used to find the distance between query and documents.
+	 */
+	List<SearchResult> query(Descriptor query, int n);
+
+	/**
+	 * 
+	 * @param measure
+	 */
+	void setMeasure(Measure measure);
 }
