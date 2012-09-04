@@ -1,1 +1,2 @@
 gov.nist.itl.ssd.sampling.impl.RandomSampler
+gov.nist.itl.ssd.sampling.impl.UniformSampler
