@@ -35,7 +35,7 @@
  */
 package edu.illinois.ncsa.versus.engine.impl;
 
-import java.io.InputStream;
+import java.io.File;
 import java.util.concurrent.Callable;
 
 import org.apache.commons.logging.Log;
@@ -43,6 +43,7 @@ import org.apache.commons.logging.LogFactory;
 
 import edu.illinois.ncsa.versus.UnsupportedTypeException;
 import edu.illinois.ncsa.versus.adapter.Adapter;
+import edu.illinois.ncsa.versus.adapter.FileLoader;
 import edu.illinois.ncsa.versus.adapter.StreamLoader;
 import edu.illinois.ncsa.versus.descriptor.Descriptor;
 import edu.illinois.ncsa.versus.extract.Extractor;
@@ -93,9 +94,9 @@ public class ComputeCallable implements Callable<Proximity> {
             Extractor extractor = (Extractor) Class.forName(extractionID).newInstance();
             log.debug("Selected measure is " + measureID);
             Measure measure = (Measure) Class.forName(measureID).newInstance();
-            InputStream stream1 = comparison.getFirstDataset();
-            InputStream stream2 = comparison.getSecondDataset();
-            Proximity proximity = compare(stream1, stream2, adapter1, adapter2,
+            File file1 = comparison.getFirstDataset();
+            File file2 = comparison.getSecondDataset();
+            Proximity proximity = compare(file1, file2, adapter1, adapter2,
                     extractor, measure);
             if (handler != null) {
                 handler.onDone(proximity.getValue());
@@ -121,18 +122,18 @@ public class ComputeCallable implements Callable<Proximity> {
      * @return comparison
      * @throws Exception
      */
-    private Similarity compare(InputStream stream1, InputStream stream2,
+    private Similarity compare(File file1, File file2,
             Adapter adapter1, Adapter adapter2, Extractor extractor, Measure measure)
             throws Exception {
 
         if ((adapter1 instanceof StreamLoader)
                 && (adapter2 instanceof StreamLoader)) {
-            StreamLoader streamLoaderAdapter = (StreamLoader) adapter1;
-            streamLoaderAdapter.load(stream1);
-            Descriptor feature1 = extractor.extract(streamLoaderAdapter);
-            StreamLoader streamLoaderAdapter2 = (StreamLoader) adapter2;
-            streamLoaderAdapter2.load(stream2);
-            Descriptor feature2 = extractor.extract(streamLoaderAdapter2);
+            FileLoader fileLoaderAdapter = (FileLoader) adapter1;
+            fileLoaderAdapter.load(file1);
+            Descriptor feature1 = extractor.extract(fileLoaderAdapter);
+            FileLoader fileLoaderAdapter2 = (FileLoader) adapter2;
+            fileLoaderAdapter2.load(file2);
+            Descriptor feature2 = extractor.extract(fileLoaderAdapter2);
             Similarity value = measure.compare(feature1, feature2);
             return value;
         } else {

@@ -66,8 +66,8 @@ public class VersusCLI {
 			// create new comparison
 			PairwiseComparison comparison = new PairwiseComparison();
 			comparison.setId(UUID.randomUUID().toString());
-			comparison.setFirstDataset(new FileInputStream(args[0]));
-			comparison.setSecondDataset(new FileInputStream(args[1]));
+			comparison.setFirstDataset(new File(args[0]));
+			comparison.setSecondDataset(new File(args[1]));
 			comparison.setAdapterId(args[2]);
 			comparison.setExtractorId(args[3]);
 			comparison.setMeasureId(args[4]);

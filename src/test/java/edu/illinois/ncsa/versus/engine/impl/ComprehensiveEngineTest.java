@@ -32,8 +32,8 @@ public class ComprehensiveEngineTest {
 
         // create comparison 1
         PairwiseComparison comparison1 = new PairwiseComparison();
-        comparison1.setFirstDataset(new FileInputStream(file1));
-        comparison1.setSecondDataset(new FileInputStream(file2));
+        comparison1.setFirstDataset(file1);
+        comparison1.setSecondDataset(file2);
         comparison1.setAdapterId(prefix + "adapter.impl.BytesAdapter");
         comparison1.setExtractorId(prefix + "extract.impl.MD5Extractor");
         comparison1.setMeasureId(prefix + "measure.impl.MD5DistanceMeasure");
@@ -41,8 +41,8 @@ public class ComprehensiveEngineTest {
 
         // create comparison 2
         PairwiseComparison comparison2 = new PairwiseComparison();
-        comparison2.setFirstDataset(new FileInputStream(file1));
-        comparison2.setSecondDataset(new FileInputStream(file2));
+        comparison2.setFirstDataset(file1);
+        comparison2.setSecondDataset(file2);
         comparison2.setAdapterId(prefix + "adapter.impl.BytesAdapter");
         comparison2.setExtractorId(prefix + "extract.impl.MD5Extractor");
         comparison2.setMeasureId(prefix + "measure.impl.MD5DistanceMeasure");
