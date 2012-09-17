@@ -21,8 +21,8 @@ public interface SamplingStatusHandler {
     
     void onDone();
     
-    void onFailed();
+    void onFailed(String msg, Throwable e);
     
-    void onAborted();
+    void onAborted(String msg);
     
 }

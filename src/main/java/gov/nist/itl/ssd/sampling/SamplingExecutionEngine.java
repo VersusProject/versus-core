@@ -61,7 +61,7 @@ public class SamplingExecutionEngine {
                     }
                 } catch (Throwable e) {
                     if(handler != null) {
-                        handler.onFailed();
+                        handler.onFailed(e.getMessage(), e);
                     }
                     log.log(Level.SEVERE, "Error computing sampling " + sampling.getId(), e);
                 }
