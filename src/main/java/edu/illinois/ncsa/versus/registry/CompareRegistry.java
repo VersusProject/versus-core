@@ -106,7 +106,7 @@ public class CompareRegistry {
      * @param adapterId
      * @return
      */
-    public static List<Extractor> getExtractor() {
+    public static List<Extractor> getExtractors() {
         List<Extractor> extractors = new ArrayList<Extractor>();
         Iterator<Extractor> iterator = extractorLoader.iterator();
         while (iterator.hasNext()) {
