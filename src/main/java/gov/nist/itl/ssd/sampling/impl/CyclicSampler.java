@@ -24,11 +24,11 @@ import gov.nist.itl.ssd.sampling.SamplingException;
  * 
  * @author antoinev
  */
-public class UniformSampler implements Sampler {
+public class CyclicSampler implements Sampler {
 
     @Override
     public String getName() {
-        return "Uniform sampler";
+        return "Cyclic sampling";
     }
 
     @Override

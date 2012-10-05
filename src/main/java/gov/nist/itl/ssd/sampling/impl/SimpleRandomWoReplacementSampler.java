@@ -23,11 +23,11 @@ import gov.nist.itl.ssd.sampling.SamplingException;
  *
  * @author antoinev
  */
-public class RandomSampler implements Sampler {
+public class SimpleRandomWoReplacementSampler implements Sampler {
 
     @Override
     public String getName() {
-        return "Random sampler";
+        return "Simple random sampling without replacement";
     }
 
     @Override

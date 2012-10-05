@@ -57,8 +57,8 @@ public class RandomSamplerTest {
     @Test
     public void testGetName() {
         System.out.println("getName");
-        RandomSampler instance = new RandomSampler();
-        String expResult = "Random sampler";
+        SimpleRandomWoReplacementSampler instance = new SimpleRandomWoReplacementSampler();
+        String expResult = "Simple random sampling without replacement";
         String result = instance.getName();
         assertEquals(expResult, result);
     }
@@ -69,7 +69,7 @@ public class RandomSamplerTest {
     @Test
     public void testGetSupportedIndividuals() {
         System.out.println("getSupportedIndividuals");
-        RandomSampler instance = new RandomSampler();
+        SimpleRandomWoReplacementSampler instance = new SimpleRandomWoReplacementSampler();
         List result = instance.getSupportedIndividuals();
         assertNotNull(result);
         assertEquals(1, result.size());
@@ -85,7 +85,7 @@ public class RandomSamplerTest {
         int collectionSize = 100;
         List<Individual> collection = getCollection(collectionSize);
         int sampleSize = 30;
-        RandomSampler instance = new RandomSampler();
+        SimpleRandomWoReplacementSampler instance = new SimpleRandomWoReplacementSampler();
         List<Individual> result = instance.sample(collection, sampleSize);
         assertNotNull(result);
         assertEquals(sampleSize, result.size());

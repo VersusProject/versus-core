@@ -57,8 +57,8 @@ public class UniformSamplerTest {
     @Test
     public void testGetName() {
         System.out.println("getName");
-        UniformSampler instance = new UniformSampler();
-        String expResult = "Uniform sampler";
+        CyclicSampler instance = new CyclicSampler();
+        String expResult = "Cyclic sampling";
         String result = instance.getName();
         assertEquals(expResult, result);
     }
@@ -69,7 +69,7 @@ public class UniformSamplerTest {
     @Test
     public void testGetSupportedIndividuals() {
         System.out.println("getSupportedIndividuals");
-        UniformSampler instance = new UniformSampler();
+        CyclicSampler instance = new CyclicSampler();
         List result = instance.getSupportedIndividuals();
         assertNotNull(result);
         assertEquals(1, result.size());
@@ -101,7 +101,7 @@ public class UniformSamplerTest {
     private void testSizeCombination(int collectionSize, int sampleSize)
             throws SamplingException {
         List<Individual> collection = getCollection(collectionSize);
-        UniformSampler instance = new UniformSampler();
+        CyclicSampler instance = new CyclicSampler();
         List<Individual> result = instance.sample(collection, sampleSize);
         assertNotNull(result);
         assertEquals("Fail with " + collectionSize + "," + sampleSize,
