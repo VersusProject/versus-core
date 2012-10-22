@@ -86,15 +86,15 @@ public class MD5Extractor implements Extractor {
     @Override
     public Class<? extends Descriptor> getFeatureType() {
         return MD5Digest.class;
-    }
+	}
 
-    @Override
-    public boolean hasPreview() {
-        return false;
-    }
+	@Override
+	public boolean hasPreview() {
+		return false;
+	}
 
-    @Override
-    public String previewName() {
-        return null;
+	@Override
+	public String previewName() {
+		return null;
     }
 }
