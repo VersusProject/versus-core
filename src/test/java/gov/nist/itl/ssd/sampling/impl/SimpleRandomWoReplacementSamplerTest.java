@@ -30,9 +30,9 @@ import gov.nist.itl.ssd.sampling.SamplingException;
  *
  * @author antoinev
  */
-public class RandomSamplerTest {
+public class SimpleRandomWoReplacementSamplerTest {
     
-    public RandomSamplerTest() {
+    public SimpleRandomWoReplacementSamplerTest() {
     }
 
     @BeforeClass
