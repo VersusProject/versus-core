@@ -106,10 +106,6 @@ public class SimpleRandWithReplacementSamplerTest {
             fail();
         } catch (Exception e) {
         }
-        
-        List<Individual> sample = instance.sample(collection, collectionSize);
-        boolean equalCollection = CollectionUtils.isEqualCollection(collection, sample);
-        assertTrue(equalCollection);
     }
     
     private List<Individual> getCollection(int size) {
