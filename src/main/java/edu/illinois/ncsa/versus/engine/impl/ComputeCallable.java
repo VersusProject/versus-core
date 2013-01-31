@@ -126,8 +126,8 @@ public class ComputeCallable implements Callable<Proximity> {
             Adapter adapter1, Adapter adapter2, Extractor extractor, Measure measure)
             throws Exception {
 
-        if ((adapter1 instanceof StreamLoader)
-                && (adapter2 instanceof StreamLoader)) {
+        if ((adapter1 instanceof FileLoader)
+                && (adapter2 instanceof FileLoader)) {
             FileLoader fileLoaderAdapter = (FileLoader) adapter1;
             fileLoaderAdapter.load(file1);
             Descriptor feature1 = extractor.extract(fileLoaderAdapter);
