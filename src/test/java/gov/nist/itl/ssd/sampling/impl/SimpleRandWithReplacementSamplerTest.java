@@ -30,9 +30,9 @@ import gov.nist.itl.ssd.sampling.SamplingException;
  *
  * @author antoinev
  */
-public class RandomSamplerTest {
+public class SimpleRandWithReplacementSamplerTest {
     
-    public RandomSamplerTest() {
+    public SimpleRandWithReplacementSamplerTest() {
     }
 
     @BeforeClass
@@ -57,8 +57,8 @@ public class RandomSamplerTest {
     @Test
     public void testGetName() {
         System.out.println("getName");
-        SimpleRandomWoReplacementSampler instance = new SimpleRandomWoReplacementSampler();
-        String expResult = "Simple random sampling without replacement";
+        SimpleRandomWithReplacementSampler instance = new SimpleRandomWithReplacementSampler();
+        String expResult = "Simple random sampling with replacement";
         String result = instance.getName();
         assertEquals(expResult, result);
     }
@@ -69,7 +69,7 @@ public class RandomSamplerTest {
     @Test
     public void testGetSupportedIndividuals() {
         System.out.println("getSupportedIndividuals");
-        SimpleRandomWoReplacementSampler instance = new SimpleRandomWoReplacementSampler();
+        SimpleRandomWithReplacementSampler instance = new SimpleRandomWithReplacementSampler();
         List result = instance.getSupportedIndividuals();
         assertNotNull(result);
         assertEquals(1, result.size());
@@ -85,7 +85,7 @@ public class RandomSamplerTest {
         int collectionSize = 100;
         List<Individual> collection = getCollection(collectionSize);
         int sampleSize = 30;
-        SimpleRandomWoReplacementSampler instance = new SimpleRandomWoReplacementSampler();
+        SimpleRandomWithReplacementSampler instance = new SimpleRandomWithReplacementSampler();
         List<Individual> result = instance.sample(collection, sampleSize);
         assertNotNull(result);
         assertEquals(sampleSize, result.size());
@@ -106,10 +106,6 @@ public class RandomSamplerTest {
             fail();
         } catch (Exception e) {
         }
-        
-        List<Individual> sample = instance.sample(collection, collectionSize);
-        boolean equalCollection = CollectionUtils.isEqualCollection(collection, sample);
-        assertTrue(equalCollection);
     }
     
     private List<Individual> getCollection(int size) {
