@@ -24,12 +24,13 @@ public interface Indexer {
 	 *            The descriptor representing the document.
 	 */
 	void addDescriptor(Descriptor document);
+	void addDescriptor(Descriptor document, String id);
 
 	/**
 	 * Build index. This allows clients to add documents in batches and rebuild
 	 * the index when it's most appropriate.
 	 */
-	void commit();
+	void build();
 
 	/**
 	 * Query index using a query represented by a descriptor.
@@ -40,7 +41,9 @@ public interface Indexer {
 	 *            Measure used to find the distance between query and documents.
 	 */
 	List<SearchResult> query(Descriptor query);
-
+	List<SearchResult> query(Descriptor query,Measure measure);
+	
+     
 	/**
 	 * Query index using a query represented by a descriptor.
 	 * 
@@ -50,10 +53,14 @@ public interface Indexer {
 	 *            Measure used to find the distance between query and documents.
 	 */
 	List<SearchResult> query(Descriptor query, int n);
+	
+	//List<Double> query(Descriptor query,Measure measure);
 
 	/**
 	 * 
 	 * @param measure
 	 */
 	void setMeasure(Measure measure);
+	
+	 List<String> getIdentifiers();
 }
