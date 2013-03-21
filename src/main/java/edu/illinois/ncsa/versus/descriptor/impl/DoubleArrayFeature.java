@@ -34,6 +34,8 @@
  ******************************************************************************/
 package edu.illinois.ncsa.versus.descriptor.impl;
 
+import java.io.Serializable;
+
 import edu.illinois.ncsa.versus.descriptor.Descriptor;
 
 /**
@@ -41,7 +43,7 @@ import edu.illinois.ncsa.versus.descriptor.Descriptor;
  * 
  * @author Kenton McHenry
  */
-public class DoubleArrayFeature implements Descriptor {
+public class DoubleArrayFeature implements Descriptor,Serializable {
 
 	public final String type = this.getClass().toString();
 	private double[] values;
