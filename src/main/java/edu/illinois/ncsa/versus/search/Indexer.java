@@ -54,13 +54,17 @@ public interface Indexer {
 	 */
 	List<SearchResult> query(Descriptor query, int n);
 	
-	//List<Double> query(Descriptor query,Measure measure);
-
 	/**
 	 * 
 	 * @param measure
 	 */
 	void setMeasure(Measure measure);
 	
+	
 	 List<String> getIdentifiers();
+	 List<Descriptor> getDescriptors();
+	 
+	 void setId(String id);
+	 String getId();
+	Measure getMeasure();
 }
