@@ -34,6 +34,8 @@
  ******************************************************************************/
 package edu.illinois.ncsa.versus.measure.impl;
 
+import java.io.Serializable;
+
 import edu.illinois.ncsa.versus.UnsupportedTypeException;
 import edu.illinois.ncsa.versus.descriptor.Descriptor;
 import edu.illinois.ncsa.versus.descriptor.impl.DoubleArrayFeature;
@@ -50,7 +52,7 @@ import edu.illinois.ncsa.versus.measure.SimilarityPercentage;
  * @author Luigi Marini
  * 
  */
-public class EuclideanDistanceMeasure implements Measure {
+public class EuclideanDistanceMeasure implements Serializable,Measure {
 	/**
 	 * Compare two arrays of the same length.
 	 * 
