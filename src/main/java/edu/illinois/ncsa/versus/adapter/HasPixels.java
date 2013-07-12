@@ -43,6 +43,6 @@ package edu.illinois.ncsa.versus.adapter;
  * @author Luigi Marini
  * 
  */
-public interface HasPixels extends HasRGBPixels, HasHSVPixels {
+public interface HasPixels extends HasRGBPixels {
 
 }

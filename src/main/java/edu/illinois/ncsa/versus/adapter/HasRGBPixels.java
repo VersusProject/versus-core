@@ -87,4 +87,8 @@ public interface HasRGBPixels extends Adapter {
      * @return the number of bands
      */
     int getNumBands();
+    
+    double getMinimumPixel();
+
+    double getMaximumPixel();
 }
